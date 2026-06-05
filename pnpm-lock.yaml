@@ -11,6 +11,9 @@ importers:
       next:
         specifier: 16.2.7
         version: 16.2.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      papercss:
+        specifier: ^1.9.2
+        version: 1.9.2
       react:
         specifier: 19.2.4
         version: 19.2.4
@@ -508,6 +511,9 @@ packages:
       sass:
         optional: true
 
+  papercss@1.9.2:
+    resolution: {integrity: sha512-6pOXUbuNgjdufXu4F34BYCXzel0YyB25FS9jWwq38PWEyzcWU3SWUneCHmvM5zUK7omCQ2/VdMXf8hlJC73/mA==}
+
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
@@ -908,6 +914,8 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+
+  papercss@1.9.2: {}
 
   picocolors@1.1.1: {}
 
