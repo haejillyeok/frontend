@@ -18,6 +18,8 @@
 
 `wiki/concepts/`에 있는 아이디어, 이론, 용어, 패턴, 프레임워크를 추가한다.
 
+- [[frontend-styling-policy]] - PaperCSS 우선, Tailwind 보조 스타일링 정책.
+
 ## 종합
 
 `wiki/syntheses/`에 있는 여러 원천 자료를 아우르는 분석, 비교, 발전 중인 논지를 추가한다.

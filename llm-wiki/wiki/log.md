@@ -16,3 +16,8 @@
 
 - 기본 LLM Wiki 구조를 만들었다.
 - 원천 자료, 위키, 템플릿, 도구 디렉터리를 추가했다.
+
+## [2026-06-05] update | 프론트엔드 스타일링 정책
+
+- 업데이트: [[frontend-styling-policy]], [[index]]
+- 메모: PaperCSS 우선, Tailwind 보조 사용과 PaperCSS 직접 의존 제한 원칙을 추가했다.
