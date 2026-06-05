@@ -1,0 +1,11 @@
+{
+  "editor.defaultFormatter": "biomejs.biome", // Biome을 기본 포매터로 설정
+  "editor.formatOnSave": true, // 저장 시 자동으로 코드 포매팅
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit", // 저장 시 Biome이 지원하는 모든 자동 수정 적용
+    "source.organizeImports.biome": "explicit" // 저장 시 Biome이 지원하는 모든 import 정리 적용
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode" // Markdown 파일은 Prettier로 포매팅
+  }
+}
