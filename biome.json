@@ -10,7 +10,7 @@
   },
   "formatter": {
     "enabled": true,
-    "includes": ["**", "!pnpm-lock.yaml"],
+    "includes": ["**", "!pnpm-lock.yaml", "!llm-wiki/**"],
     "indentStyle": "space",
     "indentWidth": 2
   },
