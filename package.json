@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "format": "biome format --write",
-    "check": "biome check --write"
+    "check": "biome check --write",
+    "check:fsd": "steiger src --fail-on-warnings"
   },
   "dependencies": {
     "next": "16.2.7",

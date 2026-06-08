@@ -1,4 +1,4 @@
-export default function Home() {
+export function HomePage() {
   return (
     <main className="flex-1 w-full">
       <div className="min-h-screen w-full flex items-center justify-center p-6">
