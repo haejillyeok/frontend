@@ -2,28 +2,26 @@
 
 ## 요약
 
-현재 UI 스타일링은 PaperCSS를 우선 사용하고 Tailwind를 보조로 사용한다. 단, PaperCSS는 임시로 채택한 라이브러리이므로 직접 의존을 제한한다.
+현재 UI 스타일링은 Tailwind를 기준으로 한다. 전역 스타일은 최소화하고, 반복되는 UI 표현은 전용 컴포넌트로 모은다.
 
 ## 정의
 
-이 프로젝트의 프론트엔드 스타일링 정책은 PaperCSS의 기본 UI 표현을 활용하되, 반복되는 UI를 전용 컴포넌트로 감싸 PaperCSS 교체 비용을 낮추는 기준이다.
+이 프로젝트의 프론트엔드 스타일링 정책은 Tailwind 유틸리티를 기본으로 사용하되, 반복되는 UI를 전용 컴포넌트로 감싸 화면별 스타일 중복을 줄이는 기준이다.
 
 ## 핵심 사항
 
-- 현재 UI 스타일링은 PaperCSS를 우선 사용한다.
-- Tailwind는 레이아웃, 간격, 반응형 보정처럼 PaperCSS가 담당하지 않는 영역에 제한적으로 사용한다.
-- `shadow`, `border`, `button`, `paper`처럼 PaperCSS와 Tailwind가 충돌할 수 있는 표현 스타일은 PaperCSS 기준을 우선한다.
-- PaperCSS 내부 Google Fonts `@import` 규칙을 지키기 위해 전역 CSS에서는 PaperCSS를 Tailwind보다 먼저 불러온다.
-- import 순서만으로 PaperCSS 우선순위를 만들지 않고, 충돌하는 표현 스타일은 전역 보정 CSS나 전용 UI 컴포넌트 내부 구현으로 PaperCSS 기준을 유지한다.
-- PaperCSS는 임시 라이브러리이므로 페이지나 기능 코드가 PaperCSS 클래스에 과하게 직접 의존하지 않게 한다.
-- 반복되는 UI나 충돌 가능성이 있는 PaperCSS 클래스는 전용 UI 컴포넌트로 만들고, PaperCSS 클래스는 그 컴포넌트 내부에 모은다.
-- 나중에 PaperCSS를 제거하거나 교체할 때 컴포넌트 내부만 바꾸는 것을 목표로 한다.
+- 현재 UI 스타일링은 Tailwind를 우선 사용한다.
+- 전역 CSS는 Tailwind import와 프로젝트 전체에 필요한 최소 규칙만 둔다.
+- 페이지나 기능 코드에는 일회성 유틸리티 조합을 허용하되, 반복되는 UI는 전용 컴포넌트로 분리한다.
+- `button`, `card`, `panel`, `input`처럼 반복될 가능성이 높은 표현은 공용 UI 컴포넌트 후보로 본다.
+- 컴포넌트 내부 구현은 Tailwind 클래스 조합을 기본으로 하고, 외부 API는 라이브러리나 클래스명에 과하게 묶이지 않게 한다.
+- 디자인 표현이 바뀌어도 페이지 구조를 크게 고치지 않도록 스타일 책임을 좁게 유지한다.
 
 ## 결정 기록
 
-- Tailwind를 먼저 import하고 PaperCSS를 나중에 import하면 PaperCSS 스타일이 더 높은 우선순위를 갖지만, PaperCSS 내부 Google Fonts `@import`가 Tailwind가 생성한 규칙 뒤에 위치한다.
-- 이 경우 빌드에서 `@import rules must precede all rules aside from @charset and @layer statements` 경고나 에러가 발생할 수 있다.
-- 따라서 전역 CSS에서는 PaperCSS를 먼저 import하고, 충돌하는 표현 스타일만 별도 보정 CSS나 전용 UI 컴포넌트로 PaperCSS 기준을 유지한다.
+- 전역 CSS는 `@import "tailwindcss";`를 기준으로 단순하게 유지한다.
+- 외부 UI CSS 프레임워크에 직접 의존하는 클래스명을 페이지 코드에 퍼뜨리지 않는다.
+- 화면별 스타일이 반복되면 전용 UI 컴포넌트나 FSD shared layer로 이동할지 검토한다.
 
 ## 관련 원천 자료
 
@@ -35,4 +33,4 @@
 
 ## 열린 질문
 
-- PaperCSS 기반 전용 UI 컴포넌트를 둘 디렉터리 구조는 아직 정하지 않았다.
+- 공용 UI 컴포넌트를 어느 시점에 `shared/ui`로 추출할지 기준을 더 정리해야 한다.

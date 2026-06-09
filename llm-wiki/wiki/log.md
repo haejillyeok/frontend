@@ -20,4 +20,9 @@
 ## [2026-06-05] update | 프론트엔드 스타일링 정책
 
 - 업데이트: [[frontend-styling-policy]], [[index]]
-- 메모: PaperCSS 우선, Tailwind 보조 사용과 PaperCSS 직접 의존 제한 원칙을 추가했다.
+- 메모: 임시 UI CSS 라이브러리 우선 사용과 직접 의존 제한 원칙을 추가했다.
+
+## [2026-06-09] update | 프론트엔드 스타일링 정책
+
+- 업데이트: [[frontend-styling-policy]], [[index]]
+- 메모: 스타일링 정책을 Tailwind 기준으로 갱신하고 외부 UI CSS 프레임워크 직접 의존 흔적을 제거했다.
