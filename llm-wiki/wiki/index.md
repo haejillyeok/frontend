@@ -18,7 +18,7 @@
 
 `wiki/concepts/`에 있는 아이디어, 이론, 용어, 패턴, 프레임워크를 추가한다.
 
-- [[frontend-styling-policy]] - Tailwind 기준 프론트엔드 스타일링 정책.
+- [[frontend-styling-policy]] - Tailwind와 shadcn/ui 기준 프론트엔드 스타일링 정책.
 
 ## 종합
 

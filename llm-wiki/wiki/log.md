@@ -26,3 +26,8 @@
 
 - 업데이트: [[frontend-styling-policy]], [[index]]
 - 메모: 스타일링 정책을 Tailwind 기준으로 갱신하고 외부 UI CSS 프레임워크 직접 의존 흔적을 제거했다.
+
+## [2026-06-09] update | shadcn/ui 스타일링 기준
+
+- 업데이트: [[frontend-styling-policy]], [[index]]
+- 메모: shadcn/ui를 공용 UI 컴포넌트의 기본 스타일링 라이브러리로 사용할 계획을 추가했다.
