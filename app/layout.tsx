@@ -2,8 +2,12 @@ import type { Metadata } from "next";
 import "@/app/styles/globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://haejillyeok.com"),
   title: "해질녘",
-  description: "WebSocket을 활용한 끝말잇기 게임",
+  description: "해질녘 사이트 준비중입니다.",
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({
