@@ -167,7 +167,16 @@ URL: `/`
 ## 네트워크 흐름
 
 브라우저에서 이미 열린 WebSocket frame payload는 소급 캡처하지 못했다.
-아래 내용은 현재 화면 관찰과 `/play` 번들에 포함된 WebSocket client, packet enum, handler 코드를 기준으로 정리했다.
+다만 브라우저 시작과 동시에 CDP `Network.webSocketFrameSent` / `Network.webSocketFrameReceived` 이벤트를 구독하면 이후 payload는 확인할 수 있다.
+아래 내용은 현재 화면 관찰, `/play` 번들에 포함된 WebSocket client, packet enum, handler 코드, 2026-06-10 실측 WebSocket frame을 기준으로 정리했다.
+
+실측 조건:
+
+- Chrome을 새 persistent context로 실행했다.
+- `https://kkutu.kr/` 이동 전에 CDP `Network.enable`과 WebSocket frame listener를 등록했다.
+- `게임 시작` 클릭 후 게스트로 자동 입장했다.
+- 공지 모달을 닫고 `빠른 시작`을 클릭해 실제 경기까지 진입했다.
+- 캡처된 소켓은 로비 `wss://kkutu.kr/w60000?...`, 매치 `wss://kkutu.kr/w60004?...`였다.
 
 ### WebSocket 연결
 
@@ -220,18 +229,38 @@ sendAndReceive(requestPacket, expectedPacketType, predicate?)
 
 ### 빠른 시작 흐름
 
-확인된 packet 기준 흐름:
+실측 payload와 확인된 packet 기준 흐름:
 
 1. `/play` 진입
-2. 로비 WebSocket 연결
-3. client -> `REQUEST_QUICK_START_STATUS`
-4. server -> `SYNC_QUICK_START_STATUS`
-5. 빠른 시작 클릭
-6. client -> `QUICK_START`
-7. server -> `SYNC_MATCH_QUEUE`
-8. server -> `MATCH_QUEUE_SETTLED`
-9. server -> `MATCH_QUEUE_STARTED { port, room }`
-10. client가 match port를 저장하고 매치 전환 시작
+2. 로비 WebSocket 연결: `wss://kkutu.kr/w60000?version=v3.8.1%2327651d0`
+3. server -> `SYNC_ROOM_LIST`
+4. server -> `SYNC_FEATURE`
+5. server -> `SYNC_USER`
+6. client -> `PING`
+7. client -> `REQUEST_QUICK_START_STATUS`
+8. server -> `SYNC_QUICK_START_STATUS`
+9. 빠른 시작 클릭
+10. client -> `QUICK_START`
+11. server -> `SYNC_MATCH_QUEUE`
+12. server -> `MATCH_QUEUE_SETTLED`
+13. server -> `MATCH_QUEUE_STARTED { port, room }`
+14. client가 match port를 저장하고 매치 전환 시작
+
+실측 주요 payload:
+
+```json
+{"t":79,"s":{"idList":["NORMAL_WORD_CHAIN_KO","NORMAL_WORD_CHAIN_KO_MANNER"]}}
+{"t":80,"v":{"recentPlayed":{},"idList":["NORMAL_WORD_CHAIN_KO","NORMAL_WORD_CHAIN_KO_MANNER"]},"x":null}
+{"t":82}
+{"t":83,"p":60004,"r":{"q":"NORMAL_WORD_CHAIN_KO","s":"playing","o":{"type":"wordChainKo","capacity":2,"flavors":["item"],"roundCount":3,"roundTime":90,"visible":false}}}
+```
+
+실측 packet type 매핑:
+
+- `t:79`: `QUICK_START`
+- `t:80`: `SYNC_MATCH_QUEUE`
+- `t:82`: `MATCH_QUEUE_SETTLED`
+- `t:83`: `MATCH_QUEUE_STARTED`
 
 UI 대응:
 
@@ -239,17 +268,58 @@ UI 대응:
 - `MATCH_QUEUE_SETTLED`: `잠시 후 경기를 시작합니다!` 카운트다운 표시
 - `MATCH_QUEUE_STARTED`: 매치 서버 포트 수신 후 경기 화면 전환
 
+초기 진입 payload:
+
+```json
+{"t":5,"u":{"i":"g/...", "n":null, "l":1, "f":{"quickStart":{"idList":["NORMAL_WORD_CHAIN_KO","NORMAL_WORD_CHAIN_KO_MANNER"]}}},"x":false}
+{"t":6}
+{"t":8,"d":[]}
+```
+
+해석:
+
+- 게스트 입장은 `게임 시작` 이후 자동으로 이뤄진다.
+- `SYNC_USER` payload에 게스트 id, 기본 코스튬, quickStart 기본 `idList`가 포함된다.
+- `QUICK_START` 요청은 선택된 빠른 시작 유형 목록을 그대로 보낸다.
+
 ### 매치 연결 흐름
 
-확인된 packet 기준 흐름:
+실측 payload와 확인된 packet 기준 흐름:
 
-1. match port로 새 WebSocket 연결
+1. match port로 새 WebSocket 연결: `wss://kkutu.kr/w60004?version=v3.8.1%2327651d0`
 2. client -> `READY`
 3. server -> `READIED`
 4. server -> `SYNC_MATCH`
 5. server -> `ROUND_STANDBY`
 6. server -> `ROUND_STARTED`
 7. server -> `TURN_STARTED`
+
+실측 주요 payload:
+
+```json
+{"t":26}
+{"t":43}
+{"t":44,"a":{"t":"wordChainKo","p":["g/...","g/..."],"R":[null,null,null],"T":0},"m":1781054617753}
+{"t":25,"W":[],"w":[]}
+{"t":46,"i":2,"a":{"R":["수",null,null],"c":["수"]}}
+{"t":48,"i":2,"a":{"c":["수"],"T":90000},"p":false}
+```
+
+실측 packet type 매핑:
+
+- `t:26`: `READY`
+- `t:43`: `READIED`
+- `t:44`: `SYNC_MATCH`
+- `t:25`: 낱말집/단어장 동기화 계열로 보임
+- `t:46`: `ROUND_STANDBY`
+- `t:48`: `ROUND_STARTED` 또는 턴 시작 직전 상태 동기화
+
+추가 관찰:
+
+- 매치 연결 뒤에도 로비 WebSocket은 유지되고 방 상태 broadcast를 계속 받는다.
+- 매치 WebSocket에서는 JSON packet 외에 문자열 `"p"` ping/pong이 주기적으로 오간다.
+- `ROUND_STANDBY`에서 초성/시작 글자에 해당하는 `R`, `c` 값이 먼저 내려온다.
+- `ROUND_STARTED` 계열 payload에서 라운드 제한 시간 `T: 90000`과 미션 목록 `m`이 함께 내려온다.
 
 상태 갱신:
 
