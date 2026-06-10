@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "pnpm dlx serve@latest out",
     "format": "biome format --write",
     "check": "biome check --write",
     "check:fsd": "steiger src --fail-on-warnings"
