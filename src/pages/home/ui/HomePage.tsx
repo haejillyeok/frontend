@@ -19,7 +19,7 @@ export function HomePage() {
 
         <section className="grid flex-1 place-items-center py-16 text-center">
           <div className="flex flex-col items-center">
-            <h1 className="text-6xl font-black leading-none text-hae-paper sm:text-8xl lg:text-9xl">
+            <h1 className="text-5xl font-black leading-none text-hae-paper sm:text-7xl lg:text-8xl">
               해질녘
             </h1>
 

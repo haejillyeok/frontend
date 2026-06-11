@@ -19,7 +19,7 @@ export function PublicHeader({ showLoginLink = true }: PublicHeaderProps) {
         <Button
           asChild
           className="border-hae-paper/16 bg-hae-paper/8 px-3 font-black text-hae-paper hover:bg-hae-paper hover:text-hae-ink focus-visible:border-hae-gold focus-visible:ring-hae-gold/40"
-          size="sm"
+          size="lg"
           variant="outline"
         >
           <Link href="/login">로그인</Link>
