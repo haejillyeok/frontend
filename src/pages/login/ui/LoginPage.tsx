@@ -7,9 +7,11 @@ import { useState } from "react";
 import { authApi, ResponseError } from "@/shared/api";
 import { Button } from "@/shared/ui";
 import { PublicHeader } from "@/widgets/public-header";
-
-type LoginField = "account_id" | "nickname" | "password";
-type FieldErrors = Partial<Record<LoginField, string>>;
+import {
+  type LoginFieldErrors,
+  loginFieldConstraints,
+  validateLoginForm,
+} from "../model/login-validation";
 
 const defaultErrorMessage = "로그인에 실패했습니다. 입력값을 확인해 주세요.";
 
@@ -39,7 +41,7 @@ async function getLoginErrorMessage(error: unknown) {
 
 export function LoginPage() {
   const router = useRouter();
-  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [fieldErrors, setFieldErrors] = useState<LoginFieldErrors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -50,19 +52,11 @@ export function LoginPage() {
     const accountId = String(formData.get("account_id") ?? "").trim();
     const nickname = String(formData.get("nickname") ?? "").trim();
     const password = String(formData.get("password") ?? "");
-    const nextFieldErrors: FieldErrors = {};
-
-    if (!accountId) {
-      nextFieldErrors.account_id = "계정 ID를 입력해 주세요.";
-    }
-
-    if (!nickname) {
-      nextFieldErrors.nickname = "닉네임을 입력해 주세요.";
-    }
-
-    if (!password) {
-      nextFieldErrors.password = "비밀번호를 입력해 주세요.";
-    }
+    const nextFieldErrors = validateLoginForm({
+      account_id: accountId,
+      nickname,
+      password,
+    });
 
     setFieldErrors(nextFieldErrors);
     setSubmitError(null);
@@ -101,6 +95,7 @@ export function LoginPage() {
         <section className="grid flex-1 place-items-center py-16">
           <form
             className="w-full max-w-md rounded-lg border border-hae-paper/12 bg-hae-ink/72 p-5 shadow-[0_28px_80px_rgb(16_18_27/0.32)] backdrop-blur-md sm:p-6"
+            noValidate
             onSubmit={handleSubmit}
           >
             <div className="space-y-1">
@@ -128,7 +123,10 @@ export function LoginPage() {
                   autoComplete="username"
                   className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
                   id="account_id"
+                  maxLength={loginFieldConstraints.accountId.maxLength}
+                  minLength={loginFieldConstraints.accountId.minLength}
                   name="account_id"
+                  pattern={loginFieldConstraints.accountId.pattern}
                   placeholder="sunset-player"
                   type="text"
                 />
@@ -154,7 +152,10 @@ export function LoginPage() {
                   autoComplete="nickname"
                   className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
                   id="nickname"
+                  maxLength={loginFieldConstraints.nickname.maxLength}
+                  minLength={loginFieldConstraints.nickname.minLength}
                   name="nickname"
+                  pattern={loginFieldConstraints.nickname.pattern}
                   placeholder="해질녘고수"
                   type="text"
                 />
@@ -180,6 +181,8 @@ export function LoginPage() {
                   autoComplete="current-password"
                   className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
                   id="password"
+                  maxLength={loginFieldConstraints.password.maxLength}
+                  minLength={loginFieldConstraints.password.minLength}
                   name="password"
                   placeholder="비밀번호"
                   type="password"
