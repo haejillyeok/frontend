@@ -1,8 +1,7 @@
 "use client";
 
 import { Button } from "@/shared/ui";
-
-import { HomeHeader } from "./HomeHeader";
+import { PublicHeader } from "@/widgets/public-header";
 
 function handleStartClick() {
   console.log("게임 시작 버튼이 클릭되었습니다.");
@@ -16,7 +15,7 @@ export function HomePage() {
       <div className="absolute inset-x-0 bottom-0 h-[34%] [background:var(--hae-gradient-nightfall)]" />
 
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col">
-        <HomeHeader />
+        <PublicHeader />
 
         <section className="grid flex-1 place-items-center py-16 text-center">
           <div className="flex flex-col items-center">
