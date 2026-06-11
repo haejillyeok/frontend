@@ -1,13 +1,62 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+import { authApi } from "@/shared/api";
+import { saveLoginData } from "@/shared/auth";
 import { Button } from "@/shared/ui";
 import { PublicHeader } from "@/widgets/public-header";
 
-function handleStartClick() {
-  console.log("게임 시작 버튼이 클릭되었습니다.");
+const guestIdAlphabet =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const guestLoginErrorMessage =
+  "게스트 입장에 실패했습니다. 잠시 후 다시 시도해 주세요.";
+
+function createGuestCredential() {
+  const bytes = new Uint8Array(10);
+  crypto.getRandomValues(bytes);
+
+  const randomPart = Array.from(
+    bytes,
+    (byte) => guestIdAlphabet[byte % guestIdAlphabet.length],
+  ).join("");
+
+  return `guest_${randomPart}`;
 }
 
 export function HomePage() {
+  const router = useRouter();
+  const [isStarting, setIsStarting] = useState(false);
+  const [startError, setStartError] = useState<string | null>(null);
+
+  async function handleStartClick() {
+    if (isStarting) {
+      return;
+    }
+
+    const guestCredential = createGuestCredential();
+
+    setIsStarting(true);
+    setStartError(null);
+
+    try {
+      const loginResult = await authApi.beAuthLogin({
+        loginRequest: {
+          account_id: guestCredential,
+          nickname: guestCredential,
+          password: guestCredential,
+        },
+      });
+      saveLoginData(loginResult.data);
+      router.push("/play");
+    } catch {
+      setStartError(guestLoginErrorMessage);
+    } finally {
+      setIsStarting(false);
+    }
+  }
+
   return (
     <main className="relative flex min-h-dvh w-full overflow-hidden bg-hae-ink px-5 py-6 text-hae-paper sm:px-8 sm:py-10">
       <div className="absolute inset-0 [background:var(--hae-gradient-sunset)]" />
@@ -25,12 +74,21 @@ export function HomePage() {
 
             <Button
               className="mt-8 cursor-pointer bg-hae-gold font-black text-hae-ink shadow-[0_18px_52px_rgba(255,209,102,0.24)] hover:-translate-y-0.5 hover:bg-hae-paper focus-visible:border-hae-gold focus-visible:ring-hae-gold/40 active:translate-y-0"
+              disabled={isStarting}
               onClick={handleStartClick}
               size="lg"
               type="button"
             >
-              게임 시작
+              {isStarting ? "입장 중" : "게임 시작"}
             </Button>
+            {startError ? (
+              <p
+                className="mt-4 text-sm font-medium text-hae-paper"
+                role="alert"
+              >
+                {startError}
+              </p>
+            ) : null}
           </div>
         </section>
       </div>

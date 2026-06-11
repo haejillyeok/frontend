@@ -5,6 +5,7 @@ import type { SyntheticEvent } from "react";
 import { useState } from "react";
 
 import { authApi, ResponseError } from "@/shared/api";
+import { saveLoginData } from "@/shared/auth";
 import { Button } from "@/shared/ui";
 import { PublicHeader } from "@/widgets/public-header";
 import {
@@ -68,13 +69,14 @@ export function LoginPage() {
     setIsSubmitting(true);
 
     try {
-      await authApi.beAuthLogin({
+      const loginResult = await authApi.beAuthLogin({
         loginRequest: {
           account_id: accountId,
           nickname,
           password,
         },
       });
+      saveLoginData(loginResult.data);
       router.push("/play");
     } catch (error) {
       setSubmitError(await getLoginErrorMessage(error));
