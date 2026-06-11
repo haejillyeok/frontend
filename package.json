@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "pnpm dlx serve@latest out",
+    "api:generate": "bash scripts/generate-api.sh",
     "format": "biome format --write",
     "check": "biome check --write",
     "check:fsd": "steiger src --fail-on-warnings"
