@@ -1,1 +1,29 @@
 @import "tailwindcss";
+
+@theme {
+  --color-hae-ink: #171925;
+  --color-hae-blue-hour: #202844;
+  --color-hae-plum: #3f2c47;
+  --color-hae-ember: #f26b38;
+  --color-hae-gold: #ffd166;
+  --color-hae-paper: #f8f3ea;
+  --color-hae-mint: #78c6a3;
+}
+
+:root {
+  --hae-gradient-sunset:
+    radial-gradient(circle at 52% 82%, rgb(242 107 56 / 38%), transparent 24rem),
+    linear-gradient(
+      180deg,
+      var(--color-hae-blue-hour) 0%,
+      var(--color-hae-plum) 48%,
+      var(--color-hae-ember) 72%,
+      var(--color-hae-ink) 73%
+    );
+  --hae-gradient-nightfall: linear-gradient(
+    180deg,
+    rgb(23 25 37 / 0%) 0%,
+    var(--color-hae-ink) 35%,
+    #10121b 100%
+  );
+}
