@@ -1,24 +1,28 @@
 
-# LoginRequest
+# GameSessionParticipantResponse
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`account_id` | string
-`password` | string
+`participant_type` | [ParticipantType](ParticipantType.md)
+`display_name` | string
+`seat_number` | number
+`is_uninvited_guest` | boolean
 
 ## Example
 
 ```typescript
-import type { LoginRequest } from ''
+import type { GameSessionParticipantResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "account_id": null,
-  "password": null,
-} satisfies LoginRequest
+  "participant_type": null,
+  "display_name": null,
+  "seat_number": null,
+  "is_uninvited_guest": null,
+} satisfies GameSessionParticipantResponse
 
 console.log(example)
 
@@ -27,7 +31,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as LoginRequest
+const exampleParsed = JSON.parse(exampleJSON) as GameSessionParticipantResponse
 console.log(exampleParsed)
 ```
 

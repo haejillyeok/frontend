@@ -1,24 +1,30 @@
 
-# LoginRequest
+# RoomJoinResponse
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`account_id` | string
-`password` | string
+`room_public_id` | string
+`user_public_id` | string
+`nickname` | string
+`joined_at` | Date
+`already_member` | boolean
 
 ## Example
 
 ```typescript
-import type { LoginRequest } from ''
+import type { RoomJoinResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "account_id": null,
-  "password": null,
-} satisfies LoginRequest
+  "room_public_id": null,
+  "user_public_id": null,
+  "nickname": null,
+  "joined_at": null,
+  "already_member": null,
+} satisfies RoomJoinResponse
 
 console.log(example)
 
@@ -27,7 +33,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as LoginRequest
+const exampleParsed = JSON.parse(exampleJSON) as RoomJoinResponse
 console.log(exampleParsed)
 ```
 

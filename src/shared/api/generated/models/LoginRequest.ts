@@ -20,17 +20,11 @@ import { mapValues } from '../runtime';
  */
 export interface LoginRequest {
     /**
-     * 가입 또는 로그인에 사용할 계정 ID입니다.
+     * 로그인에 사용할 계정 ID입니다.
      * @type {string}
      * @memberof LoginRequest
      */
     account_id: string;
-    /**
-     * 게임에서 표시할 닉네임입니다.
-     * @type {string}
-     * @memberof LoginRequest
-     */
-    nickname: string;
     /**
      * 계정 ID에 연결된 비밀번호입니다.
      * @type {string}
@@ -44,7 +38,6 @@ export interface LoginRequest {
  */
 export function instanceOfLoginRequest(value: object): value is LoginRequest {
     if (!('account_id' in value) || value['account_id'] === undefined) return false;
-    if (!('nickname' in value) || value['nickname'] === undefined) return false;
     if (!('password' in value) || value['password'] === undefined) return false;
     return true;
 }
@@ -60,7 +53,6 @@ export function LoginRequestFromJSONTyped(json: any, ignoreDiscriminator: boolea
     return {
 
         'account_id': json['account_id'],
-        'nickname': json['nickname'],
         'password': json['password'],
     };
 }
@@ -77,7 +69,6 @@ export function LoginRequestToJSONTyped(value?: LoginRequest | null, ignoreDiscr
     return {
 
         'account_id': value['account_id'],
-        'nickname': value['nickname'],
         'password': value['password'],
     };
 }

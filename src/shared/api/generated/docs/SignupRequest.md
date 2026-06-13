@@ -1,5 +1,5 @@
 
-# LoginRequest
+# SignupRequest
 
 
 ## Properties
@@ -7,18 +7,20 @@
 Name | Type
 ------------ | -------------
 `account_id` | string
+`nickname` | string
 `password` | string
 
 ## Example
 
 ```typescript
-import type { LoginRequest } from ''
+import type { SignupRequest } from ''
 
 // TODO: Update the object below with actual values
 const example = {
   "account_id": null,
+  "nickname": null,
   "password": null,
-} satisfies LoginRequest
+} satisfies SignupRequest
 
 console.log(example)
 
@@ -27,7 +29,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as LoginRequest
+const exampleParsed = JSON.parse(exampleJSON) as SignupRequest
 console.log(exampleParsed)
 ```
 

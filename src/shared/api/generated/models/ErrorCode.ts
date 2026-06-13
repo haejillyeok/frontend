@@ -19,11 +19,18 @@
  */
 export const ErrorCode = {
     InvalidCredentials: 'INVALID_CREDENTIALS',
+    AuthUserConflict: 'AUTH_USER_CONFLICT',
     SessionExpired: 'SESSION_EXPIRED',
     ValidationError: 'VALIDATION_ERROR',
     HttpError: 'HTTP_ERROR',
     AgentClientNotConfigured: 'AGENT_CLIENT_NOT_CONFIGURED',
-    AgentHealthUnavailable: 'AGENT_HEALTH_UNAVAILABLE'
+    AgentHealthUnavailable: 'AGENT_HEALTH_UNAVAILABLE',
+    GameRoomNotFound: 'GAME_ROOM_NOT_FOUND',
+    GameRoomStartForbidden: 'GAME_ROOM_START_FORBIDDEN',
+    GameRoomNotStartable: 'GAME_ROOM_NOT_STARTABLE',
+    GameRoomNotJoinable: 'GAME_ROOM_NOT_JOINABLE',
+    GameRoomEntryForbidden: 'GAME_ROOM_ENTRY_FORBIDDEN',
+    GameSessionEntryForbidden: 'GAME_SESSION_ENTRY_FORBIDDEN'
 } as const;
 export type ErrorCode = typeof ErrorCode[keyof typeof ErrorCode];
 

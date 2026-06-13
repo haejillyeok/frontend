@@ -1,24 +1,24 @@
 
-# LoginRequest
+# SuccessResponseStartGameSessionResponse
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`account_id` | string
-`password` | string
+`success` | boolean
+`data` | [StartGameSessionResponse](StartGameSessionResponse.md)
 
 ## Example
 
 ```typescript
-import type { LoginRequest } from ''
+import type { SuccessResponseStartGameSessionResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "account_id": null,
-  "password": null,
-} satisfies LoginRequest
+  "success": null,
+  "data": null,
+} satisfies SuccessResponseStartGameSessionResponse
 
 console.log(example)
 
@@ -27,7 +27,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as LoginRequest
+const exampleParsed = JSON.parse(exampleJSON) as SuccessResponseStartGameSessionResponse
 console.log(exampleParsed)
 ```
 

@@ -1,24 +1,24 @@
 
-# LoginRequest
+# SignupResponse
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`account_id` | string
-`password` | string
+`user` | [AuthUserResponse](AuthUserResponse.md)
+`expires_at` | Date
 
 ## Example
 
 ```typescript
-import type { LoginRequest } from ''
+import type { SignupResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "account_id": null,
-  "password": null,
-} satisfies LoginRequest
+  "user": null,
+  "expires_at": null,
+} satisfies SignupResponse
 
 console.log(example)
 
@@ -27,7 +27,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as LoginRequest
+const exampleParsed = JSON.parse(exampleJSON) as SignupResponse
 console.log(exampleParsed)
 ```
 

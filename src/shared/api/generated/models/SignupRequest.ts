@@ -16,68 +16,68 @@ import { mapValues } from '../runtime';
 /**
  *
  * @export
- * @interface LoginUserResponse
+ * @interface SignupRequest
  */
-export interface LoginUserResponse {
+export interface SignupRequest {
     /**
-     *
+     * 회원가입에 사용할 계정 ID입니다.
      * @type {string}
-     * @memberof LoginUserResponse
-     */
-    public_id: string;
-    /**
-     *
-     * @type {string}
-     * @memberof LoginUserResponse
+     * @memberof SignupRequest
      */
     account_id: string;
     /**
-     *
+     * 게임에서 표시할 닉네임입니다.
      * @type {string}
-     * @memberof LoginUserResponse
+     * @memberof SignupRequest
      */
     nickname: string;
+    /**
+     * 계정 ID에 연결된 비밀번호입니다.
+     * @type {string}
+     * @memberof SignupRequest
+     */
+    password: string;
 }
 
 /**
- * Check if a given object implements the LoginUserResponse interface.
+ * Check if a given object implements the SignupRequest interface.
  */
-export function instanceOfLoginUserResponse(value: object): value is LoginUserResponse {
-    if (!('public_id' in value) || value['public_id'] === undefined) return false;
+export function instanceOfSignupRequest(value: object): value is SignupRequest {
     if (!('account_id' in value) || value['account_id'] === undefined) return false;
     if (!('nickname' in value) || value['nickname'] === undefined) return false;
+    if (!('password' in value) || value['password'] === undefined) return false;
     return true;
 }
 
-export function LoginUserResponseFromJSON(json: any): LoginUserResponse {
-    return LoginUserResponseFromJSONTyped(json, false);
+export function SignupRequestFromJSON(json: any): SignupRequest {
+    return SignupRequestFromJSONTyped(json, false);
 }
 
-export function LoginUserResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginUserResponse {
+export function SignupRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): SignupRequest {
     if (json == null) {
         return json;
     }
     return {
 
-        'public_id': json['public_id'],
         'account_id': json['account_id'],
         'nickname': json['nickname'],
+        'password': json['password'],
     };
 }
 
-export function LoginUserResponseToJSON(json: any): LoginUserResponse {
-    return LoginUserResponseToJSONTyped(json, false);
+export function SignupRequestToJSON(json: any): SignupRequest {
+    return SignupRequestToJSONTyped(json, false);
 }
 
-export function LoginUserResponseToJSONTyped(value?: LoginUserResponse | null, ignoreDiscriminator: boolean = false): any {
+export function SignupRequestToJSONTyped(value?: SignupRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
 
-        'public_id': value['public_id'],
         'account_id': value['account_id'],
         'nickname': value['nickname'],
+        'password': value['password'],
     };
 }

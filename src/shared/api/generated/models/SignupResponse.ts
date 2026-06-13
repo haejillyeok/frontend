@@ -24,37 +24,37 @@ import {
 /**
  *
  * @export
- * @interface LoginResponse
+ * @interface SignupResponse
  */
-export interface LoginResponse {
+export interface SignupResponse {
     /**
      *
      * @type {AuthUserResponse}
-     * @memberof LoginResponse
+     * @memberof SignupResponse
      */
     user: AuthUserResponse;
     /**
      *
      * @type {Date}
-     * @memberof LoginResponse
+     * @memberof SignupResponse
      */
     expires_at: Date;
 }
 
 /**
- * Check if a given object implements the LoginResponse interface.
+ * Check if a given object implements the SignupResponse interface.
  */
-export function instanceOfLoginResponse(value: object): value is LoginResponse {
+export function instanceOfSignupResponse(value: object): value is SignupResponse {
     if (!('user' in value) || value['user'] === undefined) return false;
     if (!('expires_at' in value) || value['expires_at'] === undefined) return false;
     return true;
 }
 
-export function LoginResponseFromJSON(json: any): LoginResponse {
-    return LoginResponseFromJSONTyped(json, false);
+export function SignupResponseFromJSON(json: any): SignupResponse {
+    return SignupResponseFromJSONTyped(json, false);
 }
 
-export function LoginResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponse {
+export function SignupResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): SignupResponse {
     if (json == null) {
         return json;
     }
@@ -65,11 +65,11 @@ export function LoginResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function LoginResponseToJSON(json: any): LoginResponse {
-    return LoginResponseToJSONTyped(json, false);
+export function SignupResponseToJSON(json: any): SignupResponse {
+    return SignupResponseToJSONTyped(json, false);
 }
 
-export function LoginResponseToJSONTyped(value?: LoginResponse | null, ignoreDiscriminator: boolean = false): any {
+export function SignupResponseToJSONTyped(value?: SignupResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

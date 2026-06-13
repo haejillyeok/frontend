@@ -24,13 +24,27 @@ import {
     LoginRequestToJSON,
 } from '../models/LoginRequest';
 import {
+    type SignupRequest,
+    SignupRequestFromJSON,
+    SignupRequestToJSON,
+} from '../models/SignupRequest';
+import {
     type SuccessResponseLoginResponse,
     SuccessResponseLoginResponseFromJSON,
     SuccessResponseLoginResponseToJSON,
 } from '../models/SuccessResponseLoginResponse';
+import {
+    type SuccessResponseSignupResponse,
+    SuccessResponseSignupResponseFromJSON,
+    SuccessResponseSignupResponseToJSON,
+} from '../models/SuccessResponseSignupResponse';
 
 export interface BeAuthLoginRequest {
     loginRequest: LoginRequest;
+}
+
+export interface BeAuthSignupRequest {
+    signupRequest: SignupRequest;
 }
 
 /**
@@ -68,8 +82,8 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * 계정 ID/비밀번호로 가입 겸 로그인을 처리하고 세션 쿠키를 발급합니다.
-     * 가입 겸 로그인
+     * 계정 ID/비밀번호로 기존 계정을 인증하고 세션 쿠키를 발급합니다.
+     * 로그인
      */
     async beAuthLoginRaw(requestParameters: BeAuthLoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SuccessResponseLoginResponse>> {
         const requestOptions = await this.beAuthLoginRequestOpts(requestParameters);
@@ -79,11 +93,60 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * 계정 ID/비밀번호로 가입 겸 로그인을 처리하고 세션 쿠키를 발급합니다.
-     * 가입 겸 로그인
+     * 계정 ID/비밀번호로 기존 계정을 인증하고 세션 쿠키를 발급합니다.
+     * 로그인
      */
     async beAuthLogin(requestParameters: BeAuthLoginRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SuccessResponseLoginResponse> {
         const response = await this.beAuthLoginRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for beAuthSignup without sending the request
+     */
+    async beAuthSignupRequestOpts(requestParameters: BeAuthSignupRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['signupRequest'] == null) {
+            throw new runtime.RequiredError(
+                'signupRequest',
+                'Required parameter "signupRequest" was null or undefined when calling beAuthSignup().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/api/v1/auth/signup`;
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: SignupRequestToJSON(requestParameters['signupRequest']),
+        };
+    }
+
+    /**
+     * 계정 ID/닉네임/비밀번호로 신규 계정을 만들고 세션 쿠키를 발급합니다.
+     * 회원가입
+     */
+    async beAuthSignupRaw(requestParameters: BeAuthSignupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SuccessResponseSignupResponse>> {
+        const requestOptions = await this.beAuthSignupRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SuccessResponseSignupResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 계정 ID/닉네임/비밀번호로 신규 계정을 만들고 세션 쿠키를 발급합니다.
+     * 회원가입
+     */
+    async beAuthSignup(requestParameters: BeAuthSignupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SuccessResponseSignupResponse> {
+        const response = await this.beAuthSignupRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -6,8 +6,7 @@
 
 Name | Type
 ------------ | -------------
-`user` | [LoginUserResponse](LoginUserResponse.md)
-`is_new_user` | boolean
+`user` | [AuthUserResponse](AuthUserResponse.md)
 `expires_at` | Date
 
 ## Example
@@ -18,7 +17,6 @@ import type { LoginResponse } from ''
 // TODO: Update the object below with actual values
 const example = {
   "user": null,
-  "is_new_user": null,
   "expires_at": null,
 } satisfies LoginResponse
 

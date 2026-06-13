@@ -1,24 +1,24 @@
 
-# LoginRequest
+# GameRoomListResponse
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`account_id` | string
-`password` | string
+`rooms` | [Array&lt;GameRoomSummaryResponse&gt;](GameRoomSummaryResponse.md)
+`current_membership` | [CurrentLobbyMembershipResponse](CurrentLobbyMembershipResponse.md)
 
 ## Example
 
 ```typescript
-import type { LoginRequest } from ''
+import type { GameRoomListResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "account_id": null,
-  "password": null,
-} satisfies LoginRequest
+  "rooms": null,
+  "current_membership": null,
+} satisfies GameRoomListResponse
 
 console.log(example)
 
@@ -27,7 +27,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as LoginRequest
+const exampleParsed = JSON.parse(exampleJSON) as GameRoomListResponse
 console.log(exampleParsed)
 ```
 

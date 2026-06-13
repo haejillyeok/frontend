@@ -1,24 +1,26 @@
 
-# LoginRequest
+# CreateGameRoomRequest
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`account_id` | string
-`password` | string
+`name` | string
+`game_type` | [GameType](GameType.md)
+`max_players` | number
 
 ## Example
 
 ```typescript
-import type { LoginRequest } from ''
+import type { CreateGameRoomRequest } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "account_id": null,
-  "password": null,
-} satisfies LoginRequest
+  "name": null,
+  "game_type": null,
+  "max_players": null,
+} satisfies CreateGameRoomRequest
 
 console.log(example)
 
@@ -27,7 +29,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as LoginRequest
+const exampleParsed = JSON.parse(exampleJSON) as CreateGameRoomRequest
 console.log(exampleParsed)
 ```
 

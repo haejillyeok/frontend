@@ -1,24 +1,20 @@
 
-# LoginRequest
+# RoomStatus
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`account_id` | string
-`password` | string
 
 ## Example
 
 ```typescript
-import type { LoginRequest } from ''
+import type { RoomStatus } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "account_id": null,
-  "password": null,
-} satisfies LoginRequest
+} satisfies RoomStatus
 
 console.log(example)
 
@@ -27,7 +23,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as LoginRequest
+const exampleParsed = JSON.parse(exampleJSON) as RoomStatus
 console.log(exampleParsed)
 ```
 

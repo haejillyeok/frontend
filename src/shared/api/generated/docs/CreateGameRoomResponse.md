@@ -1,26 +1,34 @@
 
-# LoginUserResponse
+# CreateGameRoomResponse
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`public_id` | string
-`account_id` | string
-`nickname` | string
+`room_public_id` | string
+`name` | string
+`game_type` | [GameType](GameType.md)
+`status` | [RoomStatus](RoomStatus.md)
+`max_players` | number
+`member_count` | number
+`created_at` | Date
 
 ## Example
 
 ```typescript
-import type { LoginUserResponse } from ''
+import type { CreateGameRoomResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "public_id": null,
-  "account_id": null,
-  "nickname": null,
-} satisfies LoginUserResponse
+  "room_public_id": null,
+  "name": null,
+  "game_type": null,
+  "status": null,
+  "max_players": null,
+  "member_count": null,
+  "created_at": null,
+} satisfies CreateGameRoomResponse
 
 console.log(example)
 
@@ -29,7 +37,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as LoginUserResponse
+const exampleParsed = JSON.parse(exampleJSON) as CreateGameRoomResponse
 console.log(exampleParsed)
 ```
 
