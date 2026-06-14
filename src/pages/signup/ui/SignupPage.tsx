@@ -45,6 +45,15 @@ export function SignupPage() {
   const [fieldErrors, setFieldErrors] = useState<SignupFieldErrors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const accountIdDescription = fieldErrors.account_id
+    ? "account_id-hint account_id-error"
+    : "account_id-hint";
+  const nicknameDescription = fieldErrors.nickname
+    ? "nickname-hint nickname-error"
+    : "nickname-hint";
+  const passwordDescription = fieldErrors.password
+    ? "password-hint password-error"
+    : "password-hint";
 
   async function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -116,9 +125,7 @@ export function SignupPage() {
                   계정 ID
                 </label>
                 <input
-                  aria-describedby={
-                    fieldErrors.account_id ? "account_id-error" : undefined
-                  }
+                  aria-describedby={accountIdDescription}
                   aria-invalid={Boolean(fieldErrors.account_id)}
                   autoComplete="username"
                   className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
@@ -130,6 +137,9 @@ export function SignupPage() {
                   placeholder="sunset-player"
                   type="text"
                 />
+                <p className="text-xs text-hae-paper/52" id="account_id-hint">
+                  3~20자, 영문/숫자/_ 사용 가능
+                </p>
                 {fieldErrors.account_id ? (
                   <p className="text-sm text-hae-ember" id="account_id-error">
                     {fieldErrors.account_id}
@@ -145,9 +155,7 @@ export function SignupPage() {
                   닉네임
                 </label>
                 <input
-                  aria-describedby={
-                    fieldErrors.nickname ? "nickname-error" : undefined
-                  }
+                  aria-describedby={nicknameDescription}
                   aria-invalid={Boolean(fieldErrors.nickname)}
                   autoComplete="nickname"
                   className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
@@ -159,6 +167,9 @@ export function SignupPage() {
                   placeholder="해질녘고수"
                   type="text"
                 />
+                <p className="text-xs text-hae-paper/52" id="nickname-hint">
+                  3~20자, 한글/영문/숫자/_ 사용 가능
+                </p>
                 {fieldErrors.nickname ? (
                   <p className="text-sm text-hae-ember" id="nickname-error">
                     {fieldErrors.nickname}
@@ -174,9 +185,7 @@ export function SignupPage() {
                   비밀번호
                 </label>
                 <input
-                  aria-describedby={
-                    fieldErrors.password ? "password-error" : undefined
-                  }
+                  aria-describedby={passwordDescription}
                   aria-invalid={Boolean(fieldErrors.password)}
                   autoComplete="new-password"
                   className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
@@ -187,6 +196,9 @@ export function SignupPage() {
                   placeholder="비밀번호"
                   type="password"
                 />
+                <p className="text-xs text-hae-paper/52" id="password-hint">
+                  8~20자
+                </p>
                 {fieldErrors.password ? (
                   <p className="text-sm text-hae-ember" id="password-error">
                     {fieldErrors.password}
