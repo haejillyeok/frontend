@@ -3,27 +3,14 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { createGuestAccountId } from "@/entities/account";
 import { authApi } from "@/shared/api";
 import { saveLoginData } from "@/shared/auth";
 import { Button } from "@/shared/ui";
 import { PublicHeader } from "@/widgets/public-header";
 
-const guestIdAlphabet =
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 const guestLoginErrorMessage =
   "게스트 입장에 실패했습니다. 잠시 후 다시 시도해 주세요.";
-
-function createGuestCredential() {
-  const bytes = new Uint8Array(10);
-  crypto.getRandomValues(bytes);
-
-  const randomPart = Array.from(
-    bytes,
-    (byte) => guestIdAlphabet[byte % guestIdAlphabet.length],
-  ).join("");
-
-  return `guest_${randomPart}`;
-}
 
 export function HomePage() {
   const router = useRouter();
@@ -35,7 +22,7 @@ export function HomePage() {
       return;
     }
 
-    const guestCredential = createGuestCredential();
+    const guestCredential = createGuestAccountId();
 
     setIsStarting(true);
     setStartError(null);

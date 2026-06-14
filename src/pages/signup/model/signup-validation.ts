@@ -1,3 +1,5 @@
+import { isReservedAccountId } from "@/entities/account";
+
 export type SignupField = "account_id" | "nickname" | "password";
 
 export type SignupFormValues = Record<SignupField, string>;
@@ -38,6 +40,8 @@ export function validateSignupForm(
     errors.account_id = "계정 ID는 3자 이상 20자 이하로 입력해 주세요.";
   } else if (!accountIdPattern.test(values.account_id)) {
     errors.account_id = "계정 ID는 영문, 숫자, _만 사용할 수 있습니다.";
+  } else if (isReservedAccountId(values.account_id)) {
+    errors.account_id = "guest_로 시작하는 계정 ID는 사용할 수 없습니다.";
   }
 
   if (!values.nickname) {
