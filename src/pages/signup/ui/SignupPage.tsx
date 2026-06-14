@@ -9,12 +9,12 @@ import { saveLoginData } from "@/shared/auth";
 import { Button } from "@/shared/ui";
 import { PublicHeader } from "@/widgets/public-header";
 import {
-  type LoginFieldErrors,
-  loginFieldConstraints,
-  validateLoginForm,
-} from "../model/login-validation";
+  type SignupFieldErrors,
+  signupFieldConstraints,
+  validateSignupForm,
+} from "../model/signup-validation";
 
-const defaultErrorMessage = "로그인에 실패했습니다. 입력값을 확인해 주세요.";
+const defaultErrorMessage = "회원가입에 실패했습니다. 입력값을 확인해 주세요.";
 
 function asRecord(value: unknown): Record<string, unknown> | null {
   return typeof value === "object" && value !== null
@@ -22,7 +22,7 @@ function asRecord(value: unknown): Record<string, unknown> | null {
     : null;
 }
 
-async function getLoginErrorMessage(error: unknown) {
+async function getSignupErrorMessage(error: unknown) {
   if (error instanceof ResponseError) {
     try {
       const body = asRecord(await error.response.json());
@@ -40,9 +40,9 @@ async function getLoginErrorMessage(error: unknown) {
   return defaultErrorMessage;
 }
 
-export function LoginPage() {
+export function SignupPage() {
   const router = useRouter();
-  const [fieldErrors, setFieldErrors] = useState<LoginFieldErrors>({});
+  const [fieldErrors, setFieldErrors] = useState<SignupFieldErrors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -51,9 +51,11 @@ export function LoginPage() {
 
     const formData = new FormData(event.currentTarget);
     const accountId = String(formData.get("account_id") ?? "").trim();
+    const nickname = String(formData.get("nickname") ?? "").trim();
     const password = String(formData.get("password") ?? "");
-    const nextFieldErrors = validateLoginForm({
+    const nextFieldErrors = validateSignupForm({
       account_id: accountId,
+      nickname,
       password,
     });
 
@@ -67,16 +69,17 @@ export function LoginPage() {
     setIsSubmitting(true);
 
     try {
-      const loginResult = await authApi.beAuthLogin({
-        loginRequest: {
+      const signupResult = await authApi.beAuthSignup({
+        signupRequest: {
           account_id: accountId,
+          nickname,
           password,
         },
       });
-      saveLoginData(loginResult.data);
+      saveLoginData(signupResult.data);
       router.push("/play");
     } catch (error) {
-      setSubmitError(await getLoginErrorMessage(error));
+      setSubmitError(await getSignupErrorMessage(error));
     } finally {
       setIsSubmitting(false);
     }
@@ -89,7 +92,7 @@ export function LoginPage() {
       <div className="absolute inset-x-0 bottom-0 h-[34%] [background:var(--hae-gradient-nightfall)]" />
 
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col">
-        <PublicHeader authLinks="signup" />
+        <PublicHeader authLinks="login" />
 
         <section className="grid flex-1 place-items-center py-16">
           <form
@@ -98,9 +101,9 @@ export function LoginPage() {
             onSubmit={handleSubmit}
           >
             <div className="space-y-1">
-              <h2 className="text-xl font-black text-hae-paper">로그인</h2>
+              <h2 className="text-xl font-black text-hae-paper">회원가입</h2>
               <p className="text-sm leading-6 text-hae-paper/62">
-                계정 ID와 비밀번호를 입력해 주세요.
+                계정 ID, 닉네임, 비밀번호를 입력해 주세요.
               </p>
             </div>
 
@@ -120,16 +123,45 @@ export function LoginPage() {
                   autoComplete="username"
                   className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
                   id="account_id"
-                  maxLength={loginFieldConstraints.accountId.maxLength}
-                  minLength={loginFieldConstraints.accountId.minLength}
+                  maxLength={signupFieldConstraints.accountId.maxLength}
+                  minLength={signupFieldConstraints.accountId.minLength}
                   name="account_id"
-                  pattern={loginFieldConstraints.accountId.pattern}
+                  pattern={signupFieldConstraints.accountId.pattern}
                   placeholder="sunset-player"
                   type="text"
                 />
                 {fieldErrors.account_id ? (
                   <p className="text-sm text-hae-ember" id="account_id-error">
                     {fieldErrors.account_id}
+                  </p>
+                ) : null}
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  className="text-sm font-bold text-hae-paper"
+                  htmlFor="nickname"
+                >
+                  닉네임
+                </label>
+                <input
+                  aria-describedby={
+                    fieldErrors.nickname ? "nickname-error" : undefined
+                  }
+                  aria-invalid={Boolean(fieldErrors.nickname)}
+                  autoComplete="nickname"
+                  className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
+                  id="nickname"
+                  maxLength={signupFieldConstraints.nickname.maxLength}
+                  minLength={signupFieldConstraints.nickname.minLength}
+                  name="nickname"
+                  pattern={signupFieldConstraints.nickname.pattern}
+                  placeholder="해질녘고수"
+                  type="text"
+                />
+                {fieldErrors.nickname ? (
+                  <p className="text-sm text-hae-ember" id="nickname-error">
+                    {fieldErrors.nickname}
                   </p>
                 ) : null}
               </div>
@@ -146,11 +178,11 @@ export function LoginPage() {
                     fieldErrors.password ? "password-error" : undefined
                   }
                   aria-invalid={Boolean(fieldErrors.password)}
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
                   id="password"
-                  maxLength={loginFieldConstraints.password.maxLength}
-                  minLength={loginFieldConstraints.password.minLength}
+                  maxLength={signupFieldConstraints.password.maxLength}
+                  minLength={signupFieldConstraints.password.minLength}
                   name="password"
                   placeholder="비밀번호"
                   type="password"
@@ -178,7 +210,7 @@ export function LoginPage() {
               size="lg"
               type="submit"
             >
-              {isSubmitting ? "로그인 중" : "로그인"}
+              {isSubmitting ? "가입 중" : "회원가입"}
             </Button>
           </form>
         </section>

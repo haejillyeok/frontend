@@ -1,4 +1,4 @@
-import { AuthApi, Configuration } from "./generated";
+import { AuthApi, Configuration, GameApi } from "./generated";
 
 export * from "./generated";
 
@@ -8,3 +8,4 @@ const apiConfiguration = new Configuration({
 });
 
 export const authApi = new AuthApi(apiConfiguration);
+export const gameApi = new GameApi(apiConfiguration);

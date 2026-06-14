@@ -41,14 +41,14 @@ export function HomePage() {
     setStartError(null);
 
     try {
-      const loginResult = await authApi.beAuthLogin({
-        loginRequest: {
+      const signupResult = await authApi.beAuthSignup({
+        signupRequest: {
           account_id: guestCredential,
           nickname: guestCredential,
           password: guestCredential,
         },
       });
-      saveLoginData(loginResult.data);
+      saveLoginData(signupResult.data);
       router.push("/play");
     } catch {
       setStartError(guestLoginErrorMessage);
