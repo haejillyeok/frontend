@@ -1,2 +1,2 @@
-export { Button, buttonVariants } from "./button";
-export { Checkbox } from "./checkbox";
+export { Button, buttonVariants } from "./shadcn/button";
+export { Checkbox } from "./shadcn/checkbox";

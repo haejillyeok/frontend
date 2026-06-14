@@ -10,3 +10,5 @@
 
 - FSD 구조로 작업할 때는 `docs/fsd-architecture.md`를 따른다.
 - 커밋을 만들 때는 `docs/commit-convention.md`를 따른다.
+- shadcn/ui CLI로 생성한 `src/shared/ui/shadcn/*` 컴포넌트는 불가피한 공통 버그 수정이나 디자인 시스템 차원의 변경이 아닌 한 직접 수정하지 않고, 사용처의 `className`/variant 조합으로 커스터마이징한다.
+- 프로젝트에서 직접 만든 공용 UI 컴포넌트는 `src/shared/ui/components/*`에 둔다.
