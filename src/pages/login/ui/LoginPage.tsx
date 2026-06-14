@@ -45,6 +45,12 @@ export function LoginPage() {
   const [fieldErrors, setFieldErrors] = useState<LoginFieldErrors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const accountIdDescription = fieldErrors.account_id
+    ? "account_id-hint account_id-error"
+    : "account_id-hint";
+  const passwordDescription = fieldErrors.password
+    ? "password-hint password-error"
+    : "password-hint";
 
   async function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -113,9 +119,7 @@ export function LoginPage() {
                   계정 ID
                 </label>
                 <input
-                  aria-describedby={
-                    fieldErrors.account_id ? "account_id-error" : undefined
-                  }
+                  aria-describedby={accountIdDescription}
                   aria-invalid={Boolean(fieldErrors.account_id)}
                   autoComplete="username"
                   className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
@@ -127,6 +131,9 @@ export function LoginPage() {
                   placeholder="sunset-player"
                   type="text"
                 />
+                <p className="text-xs text-hae-paper/52" id="account_id-hint">
+                  3~20자, 영문/숫자/_ 사용 가능
+                </p>
                 {fieldErrors.account_id ? (
                   <p className="text-sm text-hae-ember" id="account_id-error">
                     {fieldErrors.account_id}
@@ -142,9 +149,7 @@ export function LoginPage() {
                   비밀번호
                 </label>
                 <input
-                  aria-describedby={
-                    fieldErrors.password ? "password-error" : undefined
-                  }
+                  aria-describedby={passwordDescription}
                   aria-invalid={Boolean(fieldErrors.password)}
                   autoComplete="current-password"
                   className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
@@ -155,6 +160,9 @@ export function LoginPage() {
                   placeholder="비밀번호"
                   type="password"
                 />
+                <p className="text-xs text-hae-paper/52" id="password-hint">
+                  8~20자
+                </p>
                 {fieldErrors.password ? (
                   <p className="text-sm text-hae-ember" id="password-error">
                     {fieldErrors.password}
