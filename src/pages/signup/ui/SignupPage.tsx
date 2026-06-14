@@ -119,7 +119,7 @@ export function SignupPage() {
             <div className="mt-6 space-y-4">
               <div className="space-y-2">
                 <label
-                  className="text-sm font-bold text-hae-paper"
+                  className="pb-px text-sm font-bold text-hae-paper"
                   htmlFor="account_id"
                 >
                   계정 ID
@@ -149,7 +149,7 @@ export function SignupPage() {
 
               <div className="space-y-2">
                 <label
-                  className="text-sm font-bold text-hae-paper"
+                  className="pb-px text-sm font-bold text-hae-paper"
                   htmlFor="nickname"
                 >
                   닉네임
@@ -179,7 +179,7 @@ export function SignupPage() {
 
               <div className="space-y-2">
                 <label
-                  className="text-sm font-bold text-hae-paper"
+                  className="pb-px text-sm font-bold text-hae-paper"
                   htmlFor="password"
                 >
                   비밀번호

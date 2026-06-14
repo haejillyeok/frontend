@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import type { SyntheticEvent } from "react";
 import { useState } from "react";
-
 import { authApi, ResponseError } from "@/shared/api";
 import { saveLoginData } from "@/shared/auth";
 import { Button } from "@/shared/ui";
@@ -113,7 +112,7 @@ export function LoginPage() {
             <div className="mt-6 space-y-4">
               <div className="space-y-2">
                 <label
-                  className="text-sm font-bold text-hae-paper"
+                  className="pb-px text-sm font-bold text-hae-paper"
                   htmlFor="account_id"
                 >
                   계정 ID
@@ -143,7 +142,7 @@ export function LoginPage() {
 
               <div className="space-y-2">
                 <label
-                  className="text-sm font-bold text-hae-paper"
+                  className="pb-px text-sm font-bold text-hae-paper"
                   htmlFor="password"
                 >
                   비밀번호
