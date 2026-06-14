@@ -13,26 +13,12 @@
  */
 
 import { mapValues } from '../runtime';
-import type { ParticipantType } from './ParticipantType';
-import {
-    ParticipantTypeFromJSON,
-    ParticipantTypeFromJSONTyped,
-    ParticipantTypeToJSON,
-    ParticipantTypeToJSONTyped,
-} from './ParticipantType';
-
 /**
  *
  * @export
  * @interface GameSessionParticipantResponse
  */
 export interface GameSessionParticipantResponse {
-    /**
-     *
-     * @type {ParticipantType}
-     * @memberof GameSessionParticipantResponse
-     */
-    participant_type: ParticipantType;
     /**
      *
      * @type {string}
@@ -45,24 +31,14 @@ export interface GameSessionParticipantResponse {
      * @memberof GameSessionParticipantResponse
      */
     seat_number: number;
-    /**
-     *
-     * @type {boolean}
-     * @memberof GameSessionParticipantResponse
-     */
-    is_uninvited_guest: boolean;
 }
-
-
 
 /**
  * Check if a given object implements the GameSessionParticipantResponse interface.
  */
 export function instanceOfGameSessionParticipantResponse(value: object): value is GameSessionParticipantResponse {
-    if (!('participant_type' in value) || value['participant_type'] === undefined) return false;
     if (!('display_name' in value) || value['display_name'] === undefined) return false;
     if (!('seat_number' in value) || value['seat_number'] === undefined) return false;
-    if (!('is_uninvited_guest' in value) || value['is_uninvited_guest'] === undefined) return false;
     return true;
 }
 
@@ -76,10 +52,8 @@ export function GameSessionParticipantResponseFromJSONTyped(json: any, ignoreDis
     }
     return {
 
-        'participant_type': ParticipantTypeFromJSON(json['participant_type']),
         'display_name': json['display_name'],
         'seat_number': json['seat_number'],
-        'is_uninvited_guest': json['is_uninvited_guest'],
     };
 }
 
@@ -94,9 +68,7 @@ export function GameSessionParticipantResponseToJSONTyped(value?: GameSessionPar
 
     return {
 
-        'participant_type': ParticipantTypeToJSON(value['participant_type']),
         'display_name': value['display_name'],
         'seat_number': value['seat_number'],
-        'is_uninvited_guest': value['is_uninvited_guest'],
     };
 }

@@ -29,6 +29,8 @@ export const ErrorCode = {
     GameRoomStartForbidden: 'GAME_ROOM_START_FORBIDDEN',
     GameRoomNotStartable: 'GAME_ROOM_NOT_STARTABLE',
     GameRoomNotJoinable: 'GAME_ROOM_NOT_JOINABLE',
+    GameRoomUpdateForbidden: 'GAME_ROOM_UPDATE_FORBIDDEN',
+    GameRoomNotUpdateable: 'GAME_ROOM_NOT_UPDATEABLE',
     GameRoomEntryForbidden: 'GAME_ROOM_ENTRY_FORBIDDEN',
     GameSessionEntryForbidden: 'GAME_SESSION_ENTRY_FORBIDDEN'
 } as const;

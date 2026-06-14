@@ -1,24 +1,24 @@
 
-# GameSessionParticipantResponse
+# GameRoomRuleConfigResponse
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`display_name` | string
-`seat_number` | number
+`max_rounds` | number
+`turn_time_seconds` | number
 
 ## Example
 
 ```typescript
-import type { GameSessionParticipantResponse } from ''
+import type { GameRoomRuleConfigResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "display_name": null,
-  "seat_number": null,
-} satisfies GameSessionParticipantResponse
+  "max_rounds": null,
+  "turn_time_seconds": null,
+} satisfies GameRoomRuleConfigResponse
 
 console.log(example)
 
@@ -27,7 +27,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as GameSessionParticipantResponse
+const exampleParsed = JSON.parse(exampleJSON) as GameRoomRuleConfigResponse
 console.log(exampleParsed)
 ```
 

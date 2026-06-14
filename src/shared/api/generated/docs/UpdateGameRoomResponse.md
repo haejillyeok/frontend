@@ -1,36 +1,32 @@
 
-# StartGameSessionResponse
+# UpdateGameRoomResponse
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`game_session_public_id` | string
 `room_public_id` | string
+`name` | string
 `game_type` | [GameType](GameType.md)
-`status` | [GameSessionStatus](GameSessionStatus.md)
-`game_session_token` | string
-`game_session_token_expires_at` | Date
+`status` | [RoomStatus](RoomStatus.md)
+`max_players` | number
 `rule_config` | [GameRoomRuleConfigResponse](GameRoomRuleConfigResponse.md)
-`participants` | [Array&lt;GameSessionParticipantResponse&gt;](GameSessionParticipantResponse.md)
 
 ## Example
 
 ```typescript
-import type { StartGameSessionResponse } from ''
+import type { UpdateGameRoomResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "game_session_public_id": null,
   "room_public_id": null,
+  "name": null,
   "game_type": null,
   "status": null,
-  "game_session_token": null,
-  "game_session_token_expires_at": null,
+  "max_players": null,
   "rule_config": null,
-  "participants": null,
-} satisfies StartGameSessionResponse
+} satisfies UpdateGameRoomResponse
 
 console.log(example)
 
@@ -39,7 +35,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as StartGameSessionResponse
+const exampleParsed = JSON.parse(exampleJSON) as UpdateGameRoomResponse
 console.log(exampleParsed)
 ```
 

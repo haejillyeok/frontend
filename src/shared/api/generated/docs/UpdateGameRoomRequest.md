@@ -1,24 +1,26 @@
 
-# GameSessionParticipantResponse
+# UpdateGameRoomRequest
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`display_name` | string
-`seat_number` | number
+`name` | string
+`max_players` | number
+`rule_config` | [GameRoomRuleConfigRequest](GameRoomRuleConfigRequest.md)
 
 ## Example
 
 ```typescript
-import type { GameSessionParticipantResponse } from ''
+import type { UpdateGameRoomRequest } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "display_name": null,
-  "seat_number": null,
-} satisfies GameSessionParticipantResponse
+  "name": null,
+  "max_players": null,
+  "rule_config": null,
+} satisfies UpdateGameRoomRequest
 
 console.log(example)
 
@@ -27,7 +29,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as GameSessionParticipantResponse
+const exampleParsed = JSON.parse(exampleJSON) as UpdateGameRoomRequest
 console.log(exampleParsed)
 ```
 

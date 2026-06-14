@@ -1,24 +1,24 @@
 
-# GameSessionParticipantResponse
+# SuccessResponseUpdateGameRoomResponse
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`display_name` | string
-`seat_number` | number
+`success` | boolean
+`data` | [UpdateGameRoomResponse](UpdateGameRoomResponse.md)
 
 ## Example
 
 ```typescript
-import type { GameSessionParticipantResponse } from ''
+import type { SuccessResponseUpdateGameRoomResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "display_name": null,
-  "seat_number": null,
-} satisfies GameSessionParticipantResponse
+  "success": null,
+  "data": null,
+} satisfies SuccessResponseUpdateGameRoomResponse
 
 console.log(example)
 
@@ -27,7 +27,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as GameSessionParticipantResponse
+const exampleParsed = JSON.parse(exampleJSON) as SuccessResponseUpdateGameRoomResponse
 console.log(exampleParsed)
 ```
 

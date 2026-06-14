@@ -10,6 +10,7 @@ All URIs are relative to *http://localhost*
 | [**beGameListRooms**](GameApi.md#begamelistrooms) | **GET** /api/v1/game/rooms | 로비 객실 목록 조회 |
 | [**beGameSessionEntry**](GameApi.md#begamesessionentry) | **GET** /api/v1/game/sessions/{game_session_public_id}/entry | 게임 세션 진입 권한 확인 |
 | [**beGameStartSession**](GameApi.md#begamestartsession) | **POST** /api/v1/game/rooms/{room_public_id}/start | 게임 세션 시작 |
+| [**beGameUpdateRoom**](GameApi.md#begameupdateroom) | **PATCH** /api/v1/game/rooms/{room_public_id} | 로비 객실 설정 수정 |
 
 
 
@@ -435,6 +436,84 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+| **401** | Authentication errors |  -  |
+| **404** | Not found errors |  -  |
+| **403** | Authorization errors |  -  |
+| **409** | Conflict errors |  -  |
+| **422** | Validation errors |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## beGameUpdateRoom
+
+> SuccessResponseUpdateGameRoomResponse beGameUpdateRoom(roomPublicId, updateGameRoomRequest, sessionToken)
+
+로비 객실 설정 수정
+
+방장이 대기 객실 설정을 수정하고 같은 객실 연결에 동기화 event를 보냅니다.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  GameApi,
+} from '';
+import type { BeGameUpdateRoomRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const api = new GameApi();
+
+  const body = {
+    // string
+    roomPublicId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // UpdateGameRoomRequest
+    updateGameRoomRequest: ...,
+    // string (optional)
+    sessionToken: sessionToken_example,
+  } satisfies BeGameUpdateRoomRequest;
+
+  try {
+    const data = await api.beGameUpdateRoom(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **roomPublicId** | `string` |  | [Defaults to `undefined`] |
+| **updateGameRoomRequest** | [UpdateGameRoomRequest](UpdateGameRoomRequest.md) |  | |
+| **sessionToken** | `string` |  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**SuccessResponseUpdateGameRoomResponse**](SuccessResponseUpdateGameRoomResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
 - **Accept**: `application/json`
 
 

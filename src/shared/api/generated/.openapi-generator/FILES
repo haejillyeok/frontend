@@ -18,6 +18,8 @@ docs/ErrorCodeInfo.md
 docs/ErrorResponse.md
 docs/GameApi.md
 docs/GameRoomListResponse.md
+docs/GameRoomRuleConfigRequest.md
+docs/GameRoomRuleConfigResponse.md
 docs/GameRoomSummaryResponse.md
 docs/GameSessionEntryResponse.md
 docs/GameSessionParticipantResponse.md
@@ -26,7 +28,6 @@ docs/GameType.md
 docs/HealthResponse.md
 docs/LoginRequest.md
 docs/LoginResponse.md
-docs/ParticipantType.md
 docs/RoomJoinResponse.md
 docs/RoomLeaveResponse.md
 docs/RoomStatus.md
@@ -42,6 +43,9 @@ docs/SuccessResponseRoomJoinResponse.md
 docs/SuccessResponseRoomLeaveResponse.md
 docs/SuccessResponseSignupResponse.md
 docs/SuccessResponseStartGameSessionResponse.md
+docs/SuccessResponseUpdateGameRoomResponse.md
+docs/UpdateGameRoomRequest.md
+docs/UpdateGameRoomResponse.md
 index.ts
 models/AuthUserResponse.ts
 models/CreateGameRoomRequest.ts
@@ -51,6 +55,8 @@ models/ErrorCode.ts
 models/ErrorCodeInfo.ts
 models/ErrorResponse.ts
 models/GameRoomListResponse.ts
+models/GameRoomRuleConfigRequest.ts
+models/GameRoomRuleConfigResponse.ts
 models/GameRoomSummaryResponse.ts
 models/GameSessionEntryResponse.ts
 models/GameSessionParticipantResponse.ts
@@ -59,7 +65,6 @@ models/GameType.ts
 models/HealthResponse.ts
 models/LoginRequest.ts
 models/LoginResponse.ts
-models/ParticipantType.ts
 models/RoomJoinResponse.ts
 models/RoomLeaveResponse.ts
 models/RoomStatus.ts
@@ -75,5 +80,8 @@ models/SuccessResponseRoomJoinResponse.ts
 models/SuccessResponseRoomLeaveResponse.ts
 models/SuccessResponseSignupResponse.ts
 models/SuccessResponseStartGameSessionResponse.ts
+models/SuccessResponseUpdateGameRoomResponse.ts
+models/UpdateGameRoomRequest.ts
+models/UpdateGameRoomResponse.ts
 models/index.ts
 runtime.ts

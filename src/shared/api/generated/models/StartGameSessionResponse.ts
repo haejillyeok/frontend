@@ -20,6 +20,13 @@ import {
     GameSessionParticipantResponseToJSON,
     GameSessionParticipantResponseToJSONTyped,
 } from './GameSessionParticipantResponse';
+import type { GameRoomRuleConfigResponse } from './GameRoomRuleConfigResponse';
+import {
+    GameRoomRuleConfigResponseFromJSON,
+    GameRoomRuleConfigResponseFromJSONTyped,
+    GameRoomRuleConfigResponseToJSON,
+    GameRoomRuleConfigResponseToJSONTyped,
+} from './GameRoomRuleConfigResponse';
 import type { GameSessionStatus } from './GameSessionStatus';
 import {
     GameSessionStatusFromJSON,
@@ -79,6 +86,12 @@ export interface StartGameSessionResponse {
     game_session_token_expires_at: Date;
     /**
      *
+     * @type {GameRoomRuleConfigResponse}
+     * @memberof StartGameSessionResponse
+     */
+    rule_config: GameRoomRuleConfigResponse;
+    /**
+     *
      * @type {Array<GameSessionParticipantResponse>}
      * @memberof StartGameSessionResponse
      */
@@ -97,6 +110,7 @@ export function instanceOfStartGameSessionResponse(value: object): value is Star
     if (!('status' in value) || value['status'] === undefined) return false;
     if (!('game_session_token' in value) || value['game_session_token'] === undefined) return false;
     if (!('game_session_token_expires_at' in value) || value['game_session_token_expires_at'] === undefined) return false;
+    if (!('rule_config' in value) || value['rule_config'] === undefined) return false;
     if (!('participants' in value) || value['participants'] === undefined) return false;
     return true;
 }
@@ -117,6 +131,7 @@ export function StartGameSessionResponseFromJSONTyped(json: any, ignoreDiscrimin
         'status': GameSessionStatusFromJSON(json['status']),
         'game_session_token': json['game_session_token'],
         'game_session_token_expires_at': (new Date(json['game_session_token_expires_at'])),
+        'rule_config': GameRoomRuleConfigResponseFromJSON(json['rule_config']),
         'participants': ((json['participants'] as Array<any>).map(GameSessionParticipantResponseFromJSON)),
     };
 }
@@ -138,6 +153,7 @@ export function StartGameSessionResponseToJSONTyped(value?: StartGameSessionResp
         'status': GameSessionStatusToJSON(value['status']),
         'game_session_token': value['game_session_token'],
         'game_session_token_expires_at': value['game_session_token_expires_at'].toISOString(),
+        'rule_config': GameRoomRuleConfigResponseToJSON(value['rule_config']),
         'participants': ((value['participants'] as Array<any>).map(GameSessionParticipantResponseToJSON)),
     };
 }

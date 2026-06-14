@@ -53,6 +53,16 @@ import {
     SuccessResponseStartGameSessionResponseFromJSON,
     SuccessResponseStartGameSessionResponseToJSON,
 } from '../models/SuccessResponseStartGameSessionResponse';
+import {
+    type SuccessResponseUpdateGameRoomResponse,
+    SuccessResponseUpdateGameRoomResponseFromJSON,
+    SuccessResponseUpdateGameRoomResponseToJSON,
+} from '../models/SuccessResponseUpdateGameRoomResponse';
+import {
+    type UpdateGameRoomRequest,
+    UpdateGameRoomRequestFromJSON,
+    UpdateGameRoomRequestToJSON,
+} from '../models/UpdateGameRoomRequest';
 
 export interface BeGameCreateRoomRequest {
     createGameRoomRequest: CreateGameRoomRequest;
@@ -80,6 +90,12 @@ export interface BeGameSessionEntryRequest {
 
 export interface BeGameStartSessionRequest {
     roomPublicId: string;
+    sessionToken?: string | null;
+}
+
+export interface BeGameUpdateRoomRequest {
+    roomPublicId: string;
+    updateGameRoomRequest: UpdateGameRoomRequest;
     sessionToken?: string | null;
 }
 
@@ -361,6 +377,63 @@ export class GameApi extends runtime.BaseAPI {
      */
     async beGameStartSession(requestParameters: BeGameStartSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SuccessResponseStartGameSessionResponse> {
         const response = await this.beGameStartSessionRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for beGameUpdateRoom without sending the request
+     */
+    async beGameUpdateRoomRequestOpts(requestParameters: BeGameUpdateRoomRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['roomPublicId'] == null) {
+            throw new runtime.RequiredError(
+                'roomPublicId',
+                'Required parameter "roomPublicId" was null or undefined when calling beGameUpdateRoom().'
+            );
+        }
+
+        if (requestParameters['updateGameRoomRequest'] == null) {
+            throw new runtime.RequiredError(
+                'updateGameRoomRequest',
+                'Required parameter "updateGameRoomRequest" was null or undefined when calling beGameUpdateRoom().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+
+        let urlPath = `/api/v1/game/rooms/{room_public_id}`;
+        urlPath = urlPath.replace('{room_public_id}', encodeURIComponent(String(requestParameters['roomPublicId'])));
+
+        return {
+            path: urlPath,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpdateGameRoomRequestToJSON(requestParameters['updateGameRoomRequest']),
+        };
+    }
+
+    /**
+     * 방장이 대기 객실 설정을 수정하고 같은 객실 연결에 동기화 event를 보냅니다.
+     * 로비 객실 설정 수정
+     */
+    async beGameUpdateRoomRaw(requestParameters: BeGameUpdateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SuccessResponseUpdateGameRoomResponse>> {
+        const requestOptions = await this.beGameUpdateRoomRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SuccessResponseUpdateGameRoomResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 방장이 대기 객실 설정을 수정하고 같은 객실 연결에 동기화 event를 보냅니다.
+     * 로비 객실 설정 수정
+     */
+    async beGameUpdateRoom(requestParameters: BeGameUpdateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SuccessResponseUpdateGameRoomResponse> {
+        const response = await this.beGameUpdateRoomRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

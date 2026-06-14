@@ -1,20 +1,24 @@
 
-# ParticipantType
+# GameRoomRuleConfigRequest
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
+`max_rounds` | number
+`turn_time_seconds` | number
 
 ## Example
 
 ```typescript
-import type { ParticipantType } from ''
+import type { GameRoomRuleConfigRequest } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-} satisfies ParticipantType
+  "max_rounds": null,
+  "turn_time_seconds": null,
+} satisfies GameRoomRuleConfigRequest
 
 console.log(example)
 
@@ -23,7 +27,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as ParticipantType
+const exampleParsed = JSON.parse(exampleJSON) as GameRoomRuleConfigRequest
 console.log(exampleParsed)
 ```
 
