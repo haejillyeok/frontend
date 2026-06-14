@@ -2,11 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import type { SyntheticEvent } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { authApi, ResponseError } from "@/shared/api";
 import { saveLoginData } from "@/shared/auth";
-import { Button } from "@/shared/ui";
+import { Button, Checkbox } from "@/shared/ui";
 import { PublicHeader } from "@/widgets/public-header";
+import {
+  clearLoginAccountId,
+  readLoginAccountId,
+  saveLoginAccountId,
+} from "../model/login-account-storage";
 import {
   type LoginFieldErrors,
   loginFieldConstraints,
@@ -44,12 +49,23 @@ export function LoginPage() {
   const [fieldErrors, setFieldErrors] = useState<LoginFieldErrors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [accountId, setAccountId] = useState("");
+  const [rememberAccountId, setRememberAccountId] = useState(false);
   const accountIdDescription = fieldErrors.account_id
     ? "account_id-hint account_id-error"
     : "account_id-hint";
   const passwordDescription = fieldErrors.password
     ? "password-hint password-error"
     : "password-hint";
+
+  useEffect(() => {
+    const savedAccountId = readLoginAccountId();
+
+    if (savedAccountId) {
+      setAccountId(savedAccountId);
+      setRememberAccountId(true);
+    }
+  }, []);
 
   async function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -78,6 +94,13 @@ export function LoginPage() {
           password,
         },
       });
+
+      if (rememberAccountId) {
+        saveLoginAccountId(accountId);
+      } else {
+        clearLoginAccountId();
+      }
+
       saveLoginData(loginResult.data);
       router.push("/play");
     } catch (error) {
@@ -126,9 +149,11 @@ export function LoginPage() {
                   maxLength={loginFieldConstraints.accountId.maxLength}
                   minLength={loginFieldConstraints.accountId.minLength}
                   name="account_id"
+                  onChange={(event) => setAccountId(event.currentTarget.value)}
                   pattern={loginFieldConstraints.accountId.pattern}
                   placeholder="sunset-player"
                   type="text"
+                  value={accountId}
                 />
                 <p className="text-xs text-hae-paper/52" id="account_id-hint">
                   3~20자, 영문/숫자/_ 사용 가능
@@ -179,8 +204,26 @@ export function LoginPage() {
               </p>
             ) : null}
 
+            <div className="mt-5 flex items-center gap-2">
+              <Checkbox
+                checked={rememberAccountId}
+                className="border-hae-paper/24 bg-hae-paper/8 text-hae-ink focus-visible:border-hae-gold focus-visible:ring-hae-gold/30 data-[state=checked]:border-hae-gold data-[state=checked]:bg-hae-gold data-[state=checked]:text-hae-ink"
+                disabled={isSubmitting}
+                id="remember_account_id"
+                onCheckedChange={(checked) =>
+                  setRememberAccountId(checked === true)
+                }
+              />
+              <label
+                className="cursor-pointer text-sm font-medium text-hae-paper/72"
+                htmlFor="remember_account_id"
+              >
+                ID 기억하기
+              </label>
+            </div>
+
             <Button
-              className="mt-6 w-full cursor-pointer bg-hae-gold font-black text-hae-ink shadow-[0_18px_52px_rgba(255,209,102,0.18)] hover:bg-hae-paper focus-visible:border-hae-gold focus-visible:ring-hae-gold/40"
+              className="mt-4 w-full cursor-pointer bg-hae-gold font-black text-hae-ink shadow-[0_18px_52px_rgba(255,209,102,0.18)] hover:bg-hae-paper focus-visible:border-hae-gold focus-visible:ring-hae-gold/40"
               disabled={isSubmitting}
               size="lg"
               type="submit"
