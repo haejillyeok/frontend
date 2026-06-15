@@ -1,12 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { createGuestAccountId } from "@/entities/account";
 import { authApi } from "@/shared/api";
 import { saveLoginData } from "@/shared/auth";
-import { Button } from "@/shared/ui";
+import { Button, logoImage } from "@/shared/ui";
 import { PublicHeader } from "@/widgets/public-header";
 
 import heroBg from "./hero-bg.webp";
@@ -55,9 +56,18 @@ export function HomePage() {
       />
 
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col">
-        <PublicHeader />
+        <h2 className="text-center text-[28px] leading-[36px] tracking-[0.5px] [text-shadow:0px_10px_8px_#00000080] sm:text-[48px] sm:leading-[56px]">
+          오늘 밤 이곳에는 초대받지 못한 손님이 함께 머뭅니다.
+        </h2>
+        <Image
+          alt="해질녘"
+          className="mx-auto mt-8 h-auto w-[480px] sm:w-[640px]"
+          priority
+          src={logoImage}
+        />
+        {/* <PublicHeader /> */}
 
-        <section className="grid flex-1 place-items-center py-16 text-center">
+        {/* <section className="grid flex-1 place-items-center py-16 text-center">
           <div className="flex flex-col items-center">
             <h1 className="text-5xl font-black leading-none text-hae-paper sm:text-7xl lg:text-8xl">
               해질녘
@@ -81,7 +91,7 @@ export function HomePage() {
               </p>
             ) : null}
           </div>
-        </section>
+        </section> */}
       </div>
     </main>
   );
