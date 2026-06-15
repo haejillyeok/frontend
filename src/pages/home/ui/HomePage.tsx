@@ -2,9 +2,17 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import type { SyntheticEvent } from "react";
 import { useState } from "react";
 
 import { createGuestAccountId } from "@/entities/account";
+import {
+  getLoginErrorMessage,
+  type LoginFieldErrors,
+  loginFieldConstraints,
+  loginWithCredentials,
+  validateLoginForm,
+} from "@/features/auth-login";
 import { authApi } from "@/shared/api";
 import { saveLoginData } from "@/shared/auth";
 import {
@@ -12,6 +20,7 @@ import {
   imageButtonBg,
   imageButtonDisabledBg,
   logoImage,
+  PixelInput,
 } from "@/shared/ui";
 
 import heroBg from "./hero-bg.webp";
@@ -22,17 +31,66 @@ const guestLoginErrorMessage =
 export function HomePage() {
   const router = useRouter();
   const [isStarting, setIsStarting] = useState(false);
-  const [startError, setStartError] = useState<string | null>(null);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<LoginFieldErrors>({});
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [accountId, setAccountId] = useState("");
+  const [password, setPassword] = useState("");
+  const isBusy = isStarting || isLoggingIn;
+  const canSubmitLogin =
+    accountId.trim().length >= loginFieldConstraints.accountId.minLength &&
+    password.length >= loginFieldConstraints.password.minLength;
+  const accountIdDescription = fieldErrors.account_id
+    ? "home-account_id-error"
+    : undefined;
+  const passwordDescription = fieldErrors.password
+    ? "home-password-error"
+    : undefined;
 
-  async function handleStartClick() {
-    if (isStarting) {
+  async function handleLoginSubmit(event: SyntheticEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (isBusy) {
+      return;
+    }
+
+    const nextFieldErrors = validateLoginForm({
+      account_id: accountId.trim(),
+      password,
+    });
+
+    setFieldErrors(nextFieldErrors);
+    setSubmitError(null);
+
+    if (Object.keys(nextFieldErrors).length > 0) {
+      return;
+    }
+
+    setIsLoggingIn(true);
+
+    try {
+      await loginWithCredentials({
+        account_id: accountId.trim(),
+        password,
+      });
+      router.push("/play");
+    } catch (error) {
+      setSubmitError(await getLoginErrorMessage(error));
+    } finally {
+      setIsLoggingIn(false);
+    }
+  }
+
+  async function handleQuickStartClick() {
+    if (isBusy) {
       return;
     }
 
     const guestCredential = createGuestAccountId();
 
     setIsStarting(true);
-    setStartError(null);
+    setSubmitError(null);
+    setFieldErrors({});
 
     try {
       const signupResult = await authApi.beAuthSignup({
@@ -45,7 +103,7 @@ export function HomePage() {
       saveLoginData(signupResult.data);
       router.push("/play");
     } catch {
-      setStartError(guestLoginErrorMessage);
+      setSubmitError(guestLoginErrorMessage);
     } finally {
       setIsStarting(false);
     }
@@ -69,57 +127,97 @@ export function HomePage() {
           priority
           src={logoImage}
         />
-        <div className="mt-6 flex flex-col items-center gap-3">
-          <ImageButton
-            backgroundImage={imageButtonBg}
-            className="w-[306px]"
-            disabled={isStarting}
-            disabledBackgroundImage={imageButtonDisabledBg}
-            onClick={handleStartClick}
-          >
-            {isStarting ? "입장 중" : "입장하기"}
-          </ImageButton>
-          <ImageButton
-            backgroundImage={imageButtonBg}
-            className="w-[306px]"
-            disabled
-            disabledBackgroundImage={imageButtonDisabledBg}
-          >
-            준비 중
-          </ImageButton>
-          {startError ? (
-            <p className="text-sm font-medium text-hae-paper" role="alert">
-              {startError}
-            </p>
-          ) : null}
-        </div>
-        {/* <PublicHeader /> */}
-
-        {/* <section className="grid flex-1 place-items-center py-16 text-center">
-          <div className="flex flex-col items-center">
-            <h1 className="text-5xl font-black leading-none text-hae-paper sm:text-7xl lg:text-8xl">
-              해질녘
-            </h1>
-
-            <Button
-              className="mt-8 cursor-pointer bg-hae-gold font-black text-hae-ink shadow-[0_18px_52px_rgba(255,209,102,0.24)] hover:-translate-y-0.5 hover:bg-hae-paper focus-visible:border-hae-gold focus-visible:ring-hae-gold/40 active:translate-y-0"
-              disabled={isStarting}
-              onClick={handleStartClick}
-              size="lg"
-              type="button"
-            >
-              {isStarting ? "입장 중" : "게임 시작"}
-            </Button>
-            {startError ? (
+        <form
+          className="mx-auto mt-6 flex w-full max-w-[306px] flex-col items-center gap-3"
+          noValidate
+          onSubmit={handleLoginSubmit}
+        >
+          <div className="flex w-full flex-col gap-2">
+            <PixelInput
+              aria-describedby={accountIdDescription}
+              aria-invalid={Boolean(fieldErrors.account_id)}
+              autoComplete="username"
+              disabled={isBusy}
+              maxLength={loginFieldConstraints.accountId.maxLength}
+              minLength={loginFieldConstraints.accountId.minLength}
+              name="account_id"
+              onChange={(event) => setAccountId(event.currentTarget.value)}
+              pattern={loginFieldConstraints.accountId.pattern}
+              placeholder="계정"
+              value={accountId}
+            />
+            <PixelInput
+              aria-describedby={passwordDescription}
+              aria-invalid={Boolean(fieldErrors.password)}
+              autoComplete="current-password"
+              disabled={isBusy}
+              maxLength={loginFieldConstraints.password.maxLength}
+              minLength={loginFieldConstraints.password.minLength}
+              name="password"
+              onChange={(event) => setPassword(event.currentTarget.value)}
+              placeholder="비밀번호"
+              type="password"
+              value={password}
+            />
+          </div>
+          <div className="min-h-9 w-full">
+            {submitError ? (
               <p
-                className="mt-4 text-sm font-medium text-hae-paper"
+                className="rounded border border-hae-ember/35 bg-hae-ember/12 px-3 py-2 text-center text-sm font-medium text-hae-paper"
                 role="alert"
               >
-                {startError}
+                {submitError}
               </p>
             ) : null}
           </div>
-        </section> */}
+          <div className="flex w-full flex-col items-center [&>button+button]:-mt-4">
+            <ImageButton
+              backgroundImage={imageButtonBg}
+              className="w-[306px]"
+              disabled={isBusy || !canSubmitLogin}
+              disabledBackgroundImage={imageButtonDisabledBg}
+              type="submit"
+            >
+              {isLoggingIn ? "입장 중" : "입장하기"}
+            </ImageButton>
+            <ImageButton
+              backgroundImage={imageButtonBg}
+              className="w-[306px]"
+              disabledBackgroundImage={imageButtonDisabledBg}
+              disabled={isBusy}
+              onClick={() => router.push("/signup")}
+            >
+              가입하기
+            </ImageButton>
+            <ImageButton
+              backgroundImage={imageButtonBg}
+              className="w-[306px]"
+              disabled={isBusy}
+              disabledBackgroundImage={imageButtonDisabledBg}
+              onClick={handleQuickStartClick}
+            >
+              {isStarting ? "입장 중" : "빠른 입장"}
+            </ImageButton>
+          </div>
+          {fieldErrors.account_id ? (
+            <p
+              className="text-center text-sm font-medium text-hae-ember"
+              id="home-account_id-error"
+              role="alert"
+            >
+              {fieldErrors.account_id}
+            </p>
+          ) : null}
+          {fieldErrors.password ? (
+            <p
+              className="text-center text-sm font-medium text-hae-ember"
+              id="home-password-error"
+              role="alert"
+            >
+              {fieldErrors.password}
+            </p>
+          ) : null}
+        </form>
       </div>
     </main>
   );

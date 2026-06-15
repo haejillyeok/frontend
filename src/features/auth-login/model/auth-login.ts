@@ -1,3 +1,6 @@
+import { authApi, ResponseError } from "@/shared/api";
+import { saveLoginData } from "@/shared/auth";
+
 export type LoginField = "account_id" | "password";
 
 export type LoginFormValues = Record<LoginField, string>;
@@ -16,7 +19,14 @@ export const loginFieldConstraints = {
   },
 } as const;
 
+const defaultErrorMessage = "로그인에 실패했습니다. 입력값을 확인해 주세요.";
 const accountIdPattern = /^[A-Za-z0-9_]+$/;
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+  return typeof value === "object" && value !== null
+    ? (value as Record<string, unknown>)
+    : null;
+}
 
 export function validateLoginForm(values: LoginFormValues): LoginFieldErrors {
   const errors: LoginFieldErrors = {};
@@ -42,4 +52,32 @@ export function validateLoginForm(values: LoginFormValues): LoginFieldErrors {
   }
 
   return errors;
+}
+
+export async function loginWithCredentials(values: LoginFormValues) {
+  const loginResult = await authApi.beAuthLogin({
+    loginRequest: values,
+  });
+
+  saveLoginData(loginResult.data);
+
+  return loginResult.data;
+}
+
+export async function getLoginErrorMessage(error: unknown) {
+  if (error instanceof ResponseError) {
+    try {
+      const body = asRecord(await error.response.json());
+      const errorInfo = asRecord(body?.error);
+      const message = errorInfo?.message;
+
+      if (typeof message === "string" && message.trim().length > 0) {
+        return message;
+      }
+    } catch {
+      return defaultErrorMessage;
+    }
+  }
+
+  return defaultErrorMessage;
 }

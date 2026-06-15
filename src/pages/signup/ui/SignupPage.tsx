@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import { authApi, ResponseError } from "@/shared/api";
 import { saveLoginData } from "@/shared/auth";
-import { Button } from "@/shared/ui";
+import { Button, PixelInput } from "@/shared/ui";
 import { PublicHeader } from "@/widgets/public-header";
 import {
   type SignupFieldErrors,
@@ -124,11 +124,10 @@ export function SignupPage() {
                 >
                   계정 ID
                 </label>
-                <input
+                <PixelInput
                   aria-describedby={accountIdDescription}
                   aria-invalid={Boolean(fieldErrors.account_id)}
                   autoComplete="username"
-                  className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
                   id="account_id"
                   maxLength={signupFieldConstraints.accountId.maxLength}
                   minLength={signupFieldConstraints.accountId.minLength}
@@ -154,11 +153,10 @@ export function SignupPage() {
                 >
                   닉네임
                 </label>
-                <input
+                <PixelInput
                   aria-describedby={nicknameDescription}
                   aria-invalid={Boolean(fieldErrors.nickname)}
                   autoComplete="nickname"
-                  className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
                   id="nickname"
                   maxLength={signupFieldConstraints.nickname.maxLength}
                   minLength={signupFieldConstraints.nickname.minLength}
@@ -184,11 +182,10 @@ export function SignupPage() {
                 >
                   비밀번호
                 </label>
-                <input
+                <PixelInput
                   aria-describedby={passwordDescription}
                   aria-invalid={Boolean(fieldErrors.password)}
                   autoComplete="new-password"
-                  className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
                   id="password"
                   maxLength={signupFieldConstraints.password.maxLength}
                   minLength={signupFieldConstraints.password.minLength}

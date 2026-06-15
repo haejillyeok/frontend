@@ -3,46 +3,20 @@
 import { useRouter } from "next/navigation";
 import type { SyntheticEvent } from "react";
 import { useEffect, useState } from "react";
-import { authApi, ResponseError } from "@/shared/api";
-import { saveLoginData } from "@/shared/auth";
-import { Button, Checkbox } from "@/shared/ui";
+import {
+  getLoginErrorMessage,
+  type LoginFieldErrors,
+  loginFieldConstraints,
+  loginWithCredentials,
+  validateLoginForm,
+} from "@/features/auth-login";
+import { Button, Checkbox, PixelInput } from "@/shared/ui";
 import { PublicHeader } from "@/widgets/public-header";
 import {
   clearLoginAccountId,
   readLoginAccountId,
   saveLoginAccountId,
 } from "../model/login-account-storage";
-import {
-  type LoginFieldErrors,
-  loginFieldConstraints,
-  validateLoginForm,
-} from "../model/login-validation";
-
-const defaultErrorMessage = "로그인에 실패했습니다. 입력값을 확인해 주세요.";
-
-function asRecord(value: unknown): Record<string, unknown> | null {
-  return typeof value === "object" && value !== null
-    ? (value as Record<string, unknown>)
-    : null;
-}
-
-async function getLoginErrorMessage(error: unknown) {
-  if (error instanceof ResponseError) {
-    try {
-      const body = asRecord(await error.response.json());
-      const errorInfo = asRecord(body?.error);
-      const message = errorInfo?.message;
-
-      if (typeof message === "string" && message.trim().length > 0) {
-        return message;
-      }
-    } catch {
-      return defaultErrorMessage;
-    }
-  }
-
-  return defaultErrorMessage;
-}
 
 export function LoginPage() {
   const router = useRouter();
@@ -88,11 +62,9 @@ export function LoginPage() {
     setIsSubmitting(true);
 
     try {
-      const loginResult = await authApi.beAuthLogin({
-        loginRequest: {
-          account_id: accountId,
-          password,
-        },
+      await loginWithCredentials({
+        account_id: accountId,
+        password,
       });
 
       if (rememberAccountId) {
@@ -101,7 +73,6 @@ export function LoginPage() {
         clearLoginAccountId();
       }
 
-      saveLoginData(loginResult.data);
       router.push("/play");
     } catch (error) {
       setSubmitError(await getLoginErrorMessage(error));
@@ -140,11 +111,10 @@ export function LoginPage() {
                 >
                   계정 ID
                 </label>
-                <input
+                <PixelInput
                   aria-describedby={accountIdDescription}
                   aria-invalid={Boolean(fieldErrors.account_id)}
                   autoComplete="username"
-                  className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
                   id="account_id"
                   maxLength={loginFieldConstraints.accountId.maxLength}
                   minLength={loginFieldConstraints.accountId.minLength}
@@ -172,11 +142,10 @@ export function LoginPage() {
                 >
                   비밀번호
                 </label>
-                <input
+                <PixelInput
                   aria-describedby={passwordDescription}
                   aria-invalid={Boolean(fieldErrors.password)}
                   autoComplete="current-password"
-                  className="h-11 w-full rounded-md border border-hae-paper/14 bg-hae-paper/8 px-3 text-sm font-medium text-hae-paper outline-none transition placeholder:text-hae-paper/34 focus:border-hae-gold focus:ring-3 focus:ring-hae-gold/24 aria-invalid:border-hae-ember aria-invalid:ring-hae-ember/20"
                   id="password"
                   maxLength={loginFieldConstraints.password.maxLength}
                   minLength={loginFieldConstraints.password.minLength}
