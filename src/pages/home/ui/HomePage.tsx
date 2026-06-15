@@ -7,8 +7,12 @@ import { useState } from "react";
 import { createGuestAccountId } from "@/entities/account";
 import { authApi } from "@/shared/api";
 import { saveLoginData } from "@/shared/auth";
-import { Button, logoImage } from "@/shared/ui";
-import { PublicHeader } from "@/widgets/public-header";
+import {
+  ImageButton,
+  imageButtonBg,
+  imageButtonDisabledBg,
+  logoImage,
+} from "@/shared/ui";
 
 import heroBg from "./hero-bg.webp";
 
@@ -56,7 +60,7 @@ export function HomePage() {
       />
 
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col">
-        <h2 className="text-center text-[28px] leading-[36px] tracking-[0.5px] [text-shadow:0px_10px_8px_#00000080] sm:text-[48px] sm:leading-[56px]">
+        <h2 className="text-center text-[21px] leading-[27px] tracking-[0.5px] [text-shadow:0px_10px_8px_#00000080] sm:text-[36px] sm:leading-[42px]">
           오늘 밤 이곳에는 초대받지 못한 손님이 함께 머뭅니다.
         </h2>
         <Image
@@ -65,6 +69,30 @@ export function HomePage() {
           priority
           src={logoImage}
         />
+        <div className="mt-6 flex flex-col items-center gap-3">
+          <ImageButton
+            backgroundImage={imageButtonBg}
+            className="w-[306px]"
+            disabled={isStarting}
+            disabledBackgroundImage={imageButtonDisabledBg}
+            onClick={handleStartClick}
+          >
+            {isStarting ? "입장 중" : "입장하기"}
+          </ImageButton>
+          <ImageButton
+            backgroundImage={imageButtonBg}
+            className="w-[306px]"
+            disabled
+            disabledBackgroundImage={imageButtonDisabledBg}
+          >
+            준비 중
+          </ImageButton>
+          {startError ? (
+            <p className="text-sm font-medium text-hae-paper" role="alert">
+              {startError}
+            </p>
+          ) : null}
+        </div>
         {/* <PublicHeader /> */}
 
         {/* <section className="grid flex-1 place-items-center py-16 text-center">
