@@ -9,6 +9,8 @@ import { saveLoginData } from "@/shared/auth";
 import { Button } from "@/shared/ui";
 import { PublicHeader } from "@/widgets/public-header";
 
+import heroBg from "./hero-bg.webp";
+
 const guestLoginErrorMessage =
   "게스트 입장에 실패했습니다. 잠시 후 다시 시도해 주세요.";
 
@@ -46,9 +48,11 @@ export function HomePage() {
 
   return (
     <main className="relative flex min-h-dvh w-full overflow-hidden bg-hae-ink px-5 py-6 text-hae-paper sm:px-8 sm:py-10">
-      <div className="absolute inset-0 [background:var(--hae-gradient-sunset)]" />
-      <div className="absolute inset-x-0 bottom-[27%] h-px bg-gradient-to-r from-transparent via-hae-gold/75 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 h-[34%] [background:var(--hae-gradient-nightfall)]" />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroBg.src})` }}
+      />
 
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col">
         <PublicHeader />
