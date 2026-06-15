@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "pnpm dlx serve@latest out",
     "api:generate": "bash scripts/generate-api.sh",
+    "image:webp": "node scripts/convert-image-to-webp.mjs",
     "format": "biome format --write",
     "check": "biome check --write",
     "check:type": "tsc --noEmit",
@@ -31,6 +32,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "sharp": "^0.34.5",
     "steiger": "^0.5.12",
     "tailwindcss": "^4",
     "typescript": "^5"
