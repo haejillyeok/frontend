@@ -27,6 +27,23 @@ const galmuriCondensed = localFont({
   preload: false,
 });
 
+const kimdaegeon = localFont({
+  src: [
+    {
+      path: "../public/fonts/font_kdg/solmoe-kimdaegeon-otf-light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/font_kdg/solmoe-kimdaegeon-otf-medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+  ],
+  variable: "--next-font-kimdaegeon",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://haejillyeok.com"),
   title: "해질녘",
@@ -44,9 +61,11 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={`${galmuri.variable} ${galmuriCondensed.variable} h-full antialiased`}
+      className={`${galmuri.variable} ${galmuriCondensed.variable} ${kimdaegeon.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col font-kimdaegeon font-light">
+        {children}
+      </body>
     </html>
   );
 }

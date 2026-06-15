@@ -28,6 +28,18 @@ Galmuri는 픽셀 스타일 한글 UI에 쓰기 위한 웹폰트다. 현재는 �
 `GalmuriMono` 계열은 영문/숫자 폭이 고정된다. 점수, 타이머, 코드, 표처럼
 자릿수 정렬이 중요한 곳에 쓴다.
 
+## Solmoe KimDaeGeon
+
+위치: `public/fonts/font_kdg/`
+
+솔뫼 김대건체는 Light와 Medium 두 굵기를 사용한다. 앱에서 쓰는 OTF 기반
+`.woff2` 변환본만 보관한다.
+
+| File | 용도 |
+| --- | --- |
+| `solmoe-kimdaegeon-otf-light.woff2` | `font-weight: 300` |
+| `solmoe-kimdaegeon-otf-medium.woff2` | `font-weight: 500` |
+
 ## Next.js 사용 기준
 
 폰트 적용은 `next/font/local`로 관리한다. `public/` 아래 파일을 직접 URL로
@@ -39,18 +51,27 @@ Galmuri는 픽셀 스타일 한글 UI에 쓰기 위한 웹폰트다. 현재는 �
 | --- | --- | --- |
 | `font-galmuri` | `Galmuri11.woff2`, `Galmuri11-Bold.woff2` | 일반 Galmuri11 텍스트 |
 | `font-galmuri-condensed` | `Galmuri11-Condensed.woff2` | 좁은 폭 Galmuri11 텍스트 |
+| `font-kimdaegeon` | `solmoe-kimdaegeon-otf-light.woff2`, `solmoe-kimdaegeon-otf-medium.woff2` | 기본 본문 폰트 |
 
 ```tsx
 <p className="font-galmuri font-normal">기본 갈무리</p>
 <p className="font-galmuri font-bold">굵은 갈무리</p>
 <p className="font-galmuri-condensed">좁은 갈무리</p>
+<p className="font-kimdaegeon font-light">김대건 Light</p>
+<p className="font-kimdaegeon font-medium">김대건 Medium</p>
 ```
+
+프로젝트 기본 폰트는 `font-kimdaegeon font-light`다. `body`에 적용해 전체 앱에
+상속한다.
 
 `font-galmuri`는 `font-bold`와 함께 쓰면 `Galmuri11-Bold.woff2`를 사용한다.
 `font-black`은 대응하는 900 weight 파일이 없으므로 쓰지 않는다.
 
 `font-galmuri-condensed`는 400 weight만 있다. `font-bold`와 함께 쓰면 브라우저가
 굵기를 합성할 수 있으므로 좁은 폭 텍스트는 기본 weight로 사용한다.
+
+`font-kimdaegeon`은 300, 500 weight만 있다. `font-bold`, `font-black`은 대응
+파일이 없으므로 쓰지 않는다.
 
 ## 관리 기준
 

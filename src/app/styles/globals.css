@@ -13,6 +13,7 @@
 @theme inline {
   --font-galmuri: var(--next-font-galmuri);
   --font-galmuri-condensed: var(--next-font-galmuri-condensed);
+  --font-kimdaegeon: var(--next-font-kimdaegeon);
 }
 
 :root {
