@@ -10,6 +10,11 @@
   --color-hae-mint: #78c6a3;
 }
 
+@theme inline {
+  --font-galmuri: var(--next-font-galmuri);
+  --font-galmuri-condensed: var(--next-font-galmuri-condensed);
+}
+
 :root {
   --hae-gradient-sunset:
     radial-gradient(circle at 52% 82%, rgb(242 107 56 / 38%), transparent 24rem),
