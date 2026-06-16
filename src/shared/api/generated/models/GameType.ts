@@ -18,7 +18,7 @@
  * @export
  */
 export const GameType = {
-    Shiritori: 'shiritori',
+    WordChain: 'word_chain',
     Chosung: 'chosung',
     Contains: 'contains'
 } as const;

@@ -34,6 +34,13 @@ import {
     GameSessionStatusToJSON,
     GameSessionStatusToJSONTyped,
 } from './GameSessionStatus';
+import type { GameSessionTurnResponse } from './GameSessionTurnResponse';
+import {
+    GameSessionTurnResponseFromJSON,
+    GameSessionTurnResponseFromJSONTyped,
+    GameSessionTurnResponseToJSON,
+    GameSessionTurnResponseToJSONTyped,
+} from './GameSessionTurnResponse';
 import type { GameType } from './GameType';
 import {
     GameTypeFromJSON,
@@ -92,6 +99,18 @@ export interface StartGameSessionResponse {
     rule_config: GameRoomRuleConfigResponse;
     /**
      *
+     * @type {Date}
+     * @memberof StartGameSessionResponse
+     */
+    server_time: Date;
+    /**
+     *
+     * @type {GameSessionTurnResponse}
+     * @memberof StartGameSessionResponse
+     */
+    current_turn: GameSessionTurnResponse | null;
+    /**
+     *
      * @type {Array<GameSessionParticipantResponse>}
      * @memberof StartGameSessionResponse
      */
@@ -111,6 +130,8 @@ export function instanceOfStartGameSessionResponse(value: object): value is Star
     if (!('game_session_token' in value) || value['game_session_token'] === undefined) return false;
     if (!('game_session_token_expires_at' in value) || value['game_session_token_expires_at'] === undefined) return false;
     if (!('rule_config' in value) || value['rule_config'] === undefined) return false;
+    if (!('server_time' in value) || value['server_time'] === undefined) return false;
+    if (!('current_turn' in value) || value['current_turn'] === undefined) return false;
     if (!('participants' in value) || value['participants'] === undefined) return false;
     return true;
 }
@@ -132,6 +153,8 @@ export function StartGameSessionResponseFromJSONTyped(json: any, ignoreDiscrimin
         'game_session_token': json['game_session_token'],
         'game_session_token_expires_at': (new Date(json['game_session_token_expires_at'])),
         'rule_config': GameRoomRuleConfigResponseFromJSON(json['rule_config']),
+        'server_time': (new Date(json['server_time'])),
+        'current_turn': GameSessionTurnResponseFromJSON(json['current_turn']),
         'participants': ((json['participants'] as Array<any>).map(GameSessionParticipantResponseFromJSON)),
     };
 }
@@ -154,6 +177,8 @@ export function StartGameSessionResponseToJSONTyped(value?: StartGameSessionResp
         'game_session_token': value['game_session_token'],
         'game_session_token_expires_at': value['game_session_token_expires_at'].toISOString(),
         'rule_config': GameRoomRuleConfigResponseToJSON(value['rule_config']),
+        'server_time': value['server_time'].toISOString(),
+        'current_turn': GameSessionTurnResponseToJSON(value['current_turn']),
         'participants': ((value['participants'] as Array<any>).map(GameSessionParticipantResponseToJSON)),
     };
 }

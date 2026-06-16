@@ -24,6 +24,7 @@ docs/GameRoomSummaryResponse.md
 docs/GameSessionEntryResponse.md
 docs/GameSessionParticipantResponse.md
 docs/GameSessionStatus.md
+docs/GameSessionTurnResponse.md
 docs/GameType.md
 docs/HealthResponse.md
 docs/LoginRequest.md
@@ -61,6 +62,7 @@ models/GameRoomSummaryResponse.ts
 models/GameSessionEntryResponse.ts
 models/GameSessionParticipantResponse.ts
 models/GameSessionStatus.ts
+models/GameSessionTurnResponse.ts
 models/GameType.ts
 models/HealthResponse.ts
 models/LoginRequest.ts

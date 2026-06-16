@@ -13,6 +13,8 @@ Name | Type
 `game_session_token` | string
 `game_session_token_expires_at` | Date
 `rule_config` | [GameRoomRuleConfigResponse](GameRoomRuleConfigResponse.md)
+`server_time` | Date
+`current_turn` | [GameSessionTurnResponse](GameSessionTurnResponse.md)
 `participants` | [Array&lt;GameSessionParticipantResponse&gt;](GameSessionParticipantResponse.md)
 
 ## Example
@@ -29,6 +31,8 @@ const example = {
   "game_session_token": null,
   "game_session_token_expires_at": null,
   "rule_config": null,
+  "server_time": null,
+  "current_turn": null,
   "participants": null,
 } satisfies StartGameSessionResponse
 

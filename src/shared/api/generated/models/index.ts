@@ -14,6 +14,7 @@ export * from './GameRoomSummaryResponse';
 export * from './GameSessionEntryResponse';
 export * from './GameSessionParticipantResponse';
 export * from './GameSessionStatus';
+export * from './GameSessionTurnResponse';
 export * from './GameType';
 export * from './HealthResponse';
 export * from './LoginRequest';
