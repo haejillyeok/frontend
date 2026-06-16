@@ -143,7 +143,7 @@ export function HomePage() {
               name="account_id"
               onChange={(event) => setAccountId(event.currentTarget.value)}
               pattern={loginFieldConstraints.accountId.pattern}
-              placeholder="계정"
+              placeholder="계정 ID"
               value={accountId}
             />
             <PixelInput
