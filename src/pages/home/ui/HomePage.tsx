@@ -5,14 +5,6 @@ import { useRouter } from "next/navigation";
 import type { SyntheticEvent } from "react";
 import { useState } from "react";
 
-import { createGuestAccountId } from "@/entities/account";
-import {
-  getLoginErrorMessage,
-  type LoginFieldErrors,
-  loginFieldConstraints,
-  loginWithCredentials,
-  validateLoginForm,
-} from "@/features/auth-login";
 import { authApi } from "@/shared/api";
 import { saveLoginData } from "@/shared/auth";
 import {
@@ -22,8 +14,16 @@ import {
   logoImage,
   PixelInput,
 } from "@/shared/ui";
-
+import {
+  getLoginErrorMessage,
+  type LoginFieldErrors,
+  loginFieldConstraints,
+  loginWithCredentials,
+  validateLoginForm,
+} from "../model/auth-login";
+import { createGuestAccountId } from "../model/guest-account";
 import heroBg from "./hero-bg.webp";
+import { SignupModal } from "./SignupModal";
 
 const guestLoginErrorMessage =
   "게스트 입장에 실패했습니다. 잠시 후 다시 시도해 주세요.";
@@ -40,12 +40,17 @@ export function HomePage() {
   const canSubmitLogin =
     accountId.trim().length >= loginFieldConstraints.accountId.minLength &&
     password.length >= loginFieldConstraints.password.minLength;
-  const accountIdDescription = fieldErrors.account_id
-    ? "home-account_id-error"
-    : undefined;
-  const passwordDescription = fieldErrors.password
-    ? "home-password-error"
-    : undefined;
+  const visibleError =
+    fieldErrors.account_id ?? fieldErrors.password ?? submitError;
+  const visibleErrorField = fieldErrors.account_id
+    ? "account_id"
+    : fieldErrors.password
+      ? "password"
+      : null;
+  const accountIdDescription =
+    visibleErrorField === "account_id" ? "home-error-message" : undefined;
+  const passwordDescription =
+    visibleErrorField === "password" ? "home-error-message" : undefined;
 
   async function handleLoginSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -161,12 +166,13 @@ export function HomePage() {
             />
           </div>
           <div className="min-h-9 w-full">
-            {submitError ? (
+            {visibleError ? (
               <p
                 className="rounded border border-hae-ember/35 bg-hae-ember/12 px-3 py-2 text-center text-sm font-medium text-hae-paper"
+                id="home-error-message"
                 role="alert"
               >
-                {submitError}
+                {visibleError}
               </p>
             ) : null}
           </div>
@@ -180,15 +186,7 @@ export function HomePage() {
             >
               {isLoggingIn ? "입장 중" : "입장하기"}
             </ImageButton>
-            <ImageButton
-              backgroundImage={imageButtonBg}
-              className="w-[306px]"
-              disabledBackgroundImage={imageButtonDisabledBg}
-              disabled={isBusy}
-              onClick={() => router.push("/signup")}
-            >
-              가입하기
-            </ImageButton>
+            <SignupModal disabled={isBusy} />
             <ImageButton
               backgroundImage={imageButtonBg}
               className="w-[306px]"
@@ -199,24 +197,6 @@ export function HomePage() {
               {isStarting ? "입장 중" : "빠른 입장"}
             </ImageButton>
           </div>
-          {fieldErrors.account_id ? (
-            <p
-              className="text-center text-sm font-medium text-hae-ember"
-              id="home-account_id-error"
-              role="alert"
-            >
-              {fieldErrors.account_id}
-            </p>
-          ) : null}
-          {fieldErrors.password ? (
-            <p
-              className="text-center text-sm font-medium text-hae-ember"
-              id="home-password-error"
-              role="alert"
-            >
-              {fieldErrors.password}
-            </p>
-          ) : null}
         </form>
       </div>
     </main>

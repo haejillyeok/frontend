@@ -1,5 +1,4 @@
-export const guestAccountIdPrefix = "guest_";
-
+const guestAccountIdPrefix = "guest_";
 const guestAccountIdAlphabet =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 const guestAccountIdRandomLength = 10;
